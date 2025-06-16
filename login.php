@@ -1,13 +1,14 @@
 <?php
-ob_start();
+// Start session and output buffering before any output
 session_start();
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ABC Library Management System</title>
+    <title>Admin Login - Library Management System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -30,7 +31,6 @@ session_start();
         }
         .illustration-side {
             flex: 1;
-
             background-size: cover;
             background-position: center;
             position: relative;
@@ -120,58 +120,59 @@ session_start();
 </head>
 <body>
     <div class="login-container">
-        <div class="illustration-side" style="background-image: url('C:\Users\USER\Pictures\Saved Pictures\cat');"> 
-            <div style="background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%); padding-top: 50%;">
-                <h2>Welcome to ABC Library Management System</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor.</p>
-                <div style="text-align: center; margin-top: 20px;">
-                    <span style="display: inline-block; width: 8px; height: 8px; background-color: white; border-radius: 50%; margin: 0 4px;"></span>
-                    <span style="display: inline-block; width: 8px; height: 8px; background-color: rgba(255,255,255,0.5); border-radius: 50%; margin: 0 4px;"></span>
-                </div>
+        <div class="illustration-side">
+            <div style="background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);">
+                <h2>Library Management System</h2>
+                <p>Staff and Admin Access Portal</p>
             </div>
         </div>
         <div class="login-form-side">
-            <h2>Login</h2>
-            <p class="subtitle">How do I get started digissora ?</p>
-
+            <h2>Staff Login</h2>
+            <p class="subtitle">Enter your credentials to access the system</p>
 
             <form method="post">
                 <div class="form-group">
-                    <label for="username">Email or Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Email or Username" required>
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-                </div>
-                <div class="options">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
-                        <label class="form-check-label" for="remember_me">Remember Me</label>
-                    </div>
-                    <a href="#">Forgot Password ?</a>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <button name="submit" class="btn-login">Login</button>
             </form>
+            
             <?php
-if(isset($_POST["submit"])){
-    require("db.php");
-    $u = $_POST['username'];
-    $p = md5($_POST['password']);
-    $sql = "SELECT fullname FROM tbluser WHERE username=? AND PASSWORD=?;";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $u, $p);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if($row = $result->fetch_assoc()) {
-        $_SESSION['fullname'] = $row['fullname'];
-        header("Location: index.php");
-        exit();
-    } else {
-        echo("<p>Invalid username or password!!</p>");
-    }
-}
-?>
+            if(isset($_POST["submit"])){
+                $u = $_POST['username'];
+                $p = ($_POST['password']);
+
+                $sql = "SELECT fullname FROM tbluser WHERE username=? AND password=?;";
+                require("db.php");
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ss", $u, $p);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if($row = $result->fetch_assoc()){
+                    $_SESSION['fullname'] = $row['fullname'];
+                    $_SESSION['logged_in'] = true;  // Add this for session_check.php
+                    
+                    // Close connections
+                    $stmt->close();
+                    $conn->close();
+                    
+                    // Clear any buffered output
+                    ob_end_clean();
+                    
+                    header("Location: index.php");
+                    exit();  // Important: stop execution after redirect
+                } else {
+                    $stmt->close();
+                    $conn->close();
+                    echo "<div class='error-message'>Invalid username or password!</div>";
+                }
+            }
+            ?>
         </div>
     </div>
 </body>

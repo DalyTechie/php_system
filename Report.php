@@ -1,7 +1,10 @@
-
 <!DOCTYPE html>
     <html lang="en">
     <head>
+        <?php
+        // Include session check
+        require_once 'session_check.php';
+        ?>
         <title>Reports</title>
         <?php include 'components/head.php'; // Include the common head section ?>
     </head>

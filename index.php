@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <?php
-    session_start();
+    // Include session check
+    require_once 'session_check.php';
     include 'components/head.php';
     ?>
 </head>
