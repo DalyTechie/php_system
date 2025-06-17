@@ -370,7 +370,7 @@
       if (event.target == modal) modal.style.display = "none";
     }
 
-    document.getElementById("borrowerForm").onsubmit = function(e) {
+    document.getElementById("borrowerForm").onsubmit = function(e) {    
       e.preventDefault();
       alert("Form submitted!");
       modal.style.display = "none";
