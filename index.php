@@ -12,9 +12,10 @@
     
     <div class="ml-64">
         <?php 
-        include 'components/top_bar.php';
+ 
         include 'components/dashboard_stats.php';
         include 'components/dashboard_charts.php';
+        include 'components/top_bar.php';
         ?>
     </div>
 

@@ -75,3 +75,37 @@ INSERT INTO tblcourse (course_name, course_code, description) VALUES
 ('Bachelor of Science in Information Technology', 'BSIT', 'IT Program'),
 ('Bachelor of Science in Computer Science', 'BSCS', 'CS Program'),
 ('Bachelor of Business Administration', 'BBA', 'Business Program'); 
+
+USE `library_db`;
+
+DROP TABLE IF EXISTS `vborrower`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vborrower` AS
+SELECT
+    `tblborrower`.`borrow_id` AS `borrow_id`,
+    `tblstudent`.`firstname` AS `firstname`,
+    `tblstudent`.`lastname` AS `lastname`,
+    `tblbooks`.`title` AS `title`,
+    `tblcourse`.`course_name` AS `course_name`,
+    `tblborrower`.`borrow_date` AS `borrow_date`,
+    `tblborrower`.`return_date` AS `return_date`,
+    `tblborrower`.`status` AS `status`
+FROM
+    (
+        (
+            `tblborrower`
+            LEFT JOIN `tblstudent` ON `tblborrower`.`student_id` = `tblstudent`.`student_id`
+        )
+        LEFT JOIN `tblbooks` ON `tblborrower`.`book_id` = `tblbooks`.`book_id`
+    )
+    LEFT JOIN `tblcourse` ON `tblborrower`.`course_id` = `tblcourse`.`course_id`;
+    
+
+
+
+
+
+
+
+
+

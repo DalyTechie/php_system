@@ -8,10 +8,7 @@
     <body>
         <?php include 'components/sidebar.php'; // Include the sidebar ?>
         <div class="main-container">
-            <?php include 'components/top_bar.php'; // Include the top bar ?>
-           
-           
- 
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -85,6 +82,12 @@
             -webkit-transform: translateX(20px);
             -ms-transform: translateX(20px);
             transform: translateX(20px);
+        } 
+
+        #pkay{
+            max-width: 80%;
+            margin-left: 300px;
+            margin-top: -100px;
         }
     </style>
 </head>
@@ -94,7 +97,7 @@
     <main class="flex-1 p-8 overflow-y-auto">
         <h2 class="text-3xl font-semibold text-gray-800 mb-8">Settings</h2>
 
-        <div class="bg-white p-8 rounded-xl shadow-md max-w-3xl mx-auto">
+        <div class="bg-white p-8 rounded-xl shadow-md max-w-3xl mx-auto" id='pkay'>
             <form id="settingsForm">
                 <!-- Library System Settings Section -->
                 <div class="mb-8 pb-8 border-b border-gray-200">
@@ -241,8 +244,10 @@
         document.querySelector('a[href="settings.html"]').classList.add('text-blue-600', 'bg-blue-50');
         document.querySelector('a[href="settings.html"]').classList.remove('text-gray-700', 'hover:text-blue-600', 'hover:bg-blue-50');
     </script>
-
-        </div>
+</div>
+<?php 
+ include 'components/top_bar.php';
+?>
     </body>
     </html>
     

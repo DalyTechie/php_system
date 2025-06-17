@@ -260,7 +260,7 @@ require_once 'db.php'; // Include database connection
     <?php include 'components/sidebar.php'; ?>
     
     <div class="ml-64">
-        <?php include 'components/top_bar.php'; ?>
+   
         
         <!-- Add this modal HTML before the inventory-container div -->
         <div id="addCourseModal" class="modal">
@@ -539,6 +539,7 @@ require_once 'db.php'; // Include database connection
             }
         }
     </script>
+         <?php include 'components/top_bar.php'; ?>
 </body>
 </html>
     

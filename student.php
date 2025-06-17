@@ -1050,7 +1050,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-
+    <?php 
+ include 'components/top_bar.php';
+?>
     <script>
         // Search functionality
         document.querySelector('.search-input').addEventListener('input', function(e) {
@@ -1259,6 +1261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 reader.readAsDataURL(file);
             }
         }
-    </script>
+    </script> 
+    
 </body>
 </html>

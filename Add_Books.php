@@ -250,7 +250,7 @@
     <?php include 'components/sidebar.php'; ?>
     
     <div class="main-container">
-        <?php include 'components/top_bar.php'; ?>
+     
 
         <div class="page-header">
             <h1>Books Management</h1>
@@ -524,6 +524,7 @@
         // Add event listener for search input
         document.getElementById('searchInput').addEventListener('keyup', searchBooks);
     </script>
+       <?php include 'components/top_bar.php'; ?>
 </body>
 </html>
 

@@ -79,7 +79,7 @@ if(isset($_POST["submit"])){
 
         .illustration-side {
             flex: 1;
-            background-image: url("https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQQmmxa75ZSjHWLVUO71rid4YrYiIYflfS7zJXMVlIg4k6f26NWrx-HXnxXAZY7fxLWfs&usqp=CAU");
             position: relative;
             display: flex;
             flex-direction: column;

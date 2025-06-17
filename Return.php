@@ -179,7 +179,7 @@
     <?php include './components/sidebar.php'; ?>
     
     <div class="main-container">
-        <?php include './components/top_bar.php'; ?>
+  
 
         <div class="page-header">
             <h1>Return Books</h1>
@@ -370,6 +370,7 @@
     }
     
   </script>
+        <?php include './components/top_bar.php'; ?>
 </body>
 </html>
     

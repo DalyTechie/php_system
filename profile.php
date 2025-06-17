@@ -11,12 +11,10 @@
 <body>
     <?php include 'components/sidebar.php'; // Include the sidebar ?>
     <div class="main-container">
-        <?php include 'components/top_bar.php'; // Include the top bar ?>
-       
-       
-       
-       
+ 
     </div>
 </body>
 </html>
-    
+    <?php './components/top_bar.php'; ?>
+</body>
+</html>
