@@ -79,8 +79,10 @@ if(isset($_POST["submit"])){
 
         .illustration-side {
             flex: 1;
-            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQQmmxa75ZSjHWLVUO71rid4YrYiIYflfS7zJXMVlIg4k6f26NWrx-HXnxXAZY7fxLWfs&usqp=CAU");
+            background-image: url("images/library.png");
             position: relative;
+            background-size: contain;
+            background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -116,6 +118,7 @@ if(isset($_POST["submit"])){
             font-size: 4rem;
             margin-bottom: 30px;
             opacity: 0.9;
+           
         }
 
         .illustration-side h2 {
@@ -610,8 +613,7 @@ if(isset($_POST["submit"])){
                 <div class="icon">
                     <i class="fas fa-book-open"></i>
                 </div>
-                <h2>Welcome to ABC Library Management System</h2>
-                <p>Discover a world of knowledge and manage your library resources efficiently with our comprehensive system.</p>
+
                 <div class="dots-indicator">
                     <div class="dot active"></div>
                     <div class="dot"></div>

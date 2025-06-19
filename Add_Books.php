@@ -40,6 +40,7 @@
 
         .btn-primary {
             background-color: #4f46e5;
+            
             color: white;
             border: none;
         }
@@ -220,29 +221,58 @@
         }
 
         .btn-info {
-            background-color: #0dcaf0;
-            color: white;
-            border: none;
+            background: none;
+            color: #0dcaf0;
+            border: 1.5px solid #0dcaf0;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-info:hover {
+            background: #0dcaf011;
+            color: #0a8ca0;
         }
 
         .btn-primary {
-            background-color: #0d6efd;
-            color: white;
-            border: none;
+            background: none;
+            color: #3730a3;
+            border: 1.5px solid #3730a3;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5 !important;
+            color: #fff;
         }
 
         .btn-danger {
-            background-color: #dc3545;
-            color: white;
+            background: none;
+            color: #dc3545;
+            border: 1.5px solid #dc3545;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-danger:hover {
+            background: #dc354511;
+            color: #a71d2a;
+        }
+
+        .btn-add {
+            background-color:rgb(31, 5, 177);
+            color: #fff;
             border: none;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
         }
-
-        .btn-info:hover, .btn-primary:hover, .btn-danger:hover {
-            opacity: 0.9;
-        }
-
-        .btn i {
-            margin-right: 0.25rem;
+        .btn-add:hover {
+          
+            background-color: #3730a3;
         }
     </style>
 </head>
@@ -253,11 +283,11 @@
      
 
         <div class="page-header">
-            <h1>Books Management</h1>
+            <h1> Books Management</h1>
             <div class="header-actions">
                 <input type="text" id="searchInput" placeholder="Search books..." class="search-input" onkeyup="searchBooks()">
-                <button class="btn btn-primary" onclick="openAddBookModal()">
-                    <i class="fas fa-plus"></i> Add New Book
+                <button class="btn btn-primary" style="  background-color:rgb(25, 80, 231); color: #fff; border: none;" onclick="openAddBookModal()">
+                    <i class="fas fa-plus mr-2"></i> Add New Book
                 </button>
             </div>
         </div>
@@ -311,14 +341,14 @@
                             echo "<td>" . htmlspecialchars($row['publisher']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['category']) . "</td>";
                             echo "<td class='actions'>
-                                    <button onclick='openViewModal(\"" . htmlspecialchars($row['book_id']) . "\")' class='btn btn-info btn-sm'>
-                                        <i class='fas fa-eye'></i> View
+                                    <button onclick='openViewModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-info btn-sm'>
+                                        <span style='font-size:1.1em;'>👁️</span> View
                                     </button>
-                                    <button onclick='openEditModal(\"" . htmlspecialchars($row['book_id']) . "\")' class='btn btn-primary btn-sm'>
-                                        <i class='fas fa-edit'></i> Edit
+                                    <button onclick='openEditModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-primary btn-sm'>
+                                        <span style='font-size:1.1em;'>✏️</span> Edit
                                     </button>
-                                    <button onclick='openDeleteModal(\"" . htmlspecialchars($row['book_id']) . "\")' class='btn btn-danger btn-sm'>
-                                        <i class='fas fa-trash'></i> Delete
+                                    <button onclick='openDeleteModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-danger btn-sm'>
+                                        <span style='font-size:1.1em;'>🗑️</span> Delete
                                     </button>
                                   </td>";
                             echo "</tr>";

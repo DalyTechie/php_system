@@ -84,21 +84,23 @@
             transform: translateX(20px);
         } 
 
-        #pkay{
-            max-width: 80%;
-            margin-left: 300px;
-            margin-top: -100px;
-        }
+      
+      
+      
+      
+       #pkay{
+        width: 250px;
+       }
+       
+       
     </style>
 </head>
     <!-- Sidebar (replicated from the dashboard for navigation context) -->
 
     <!-- Main Content Area for Settings -->
     <main class="flex-1 p-8 overflow-y-auto">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-8">Settings</h2>
-
-        <div class="bg-white p-8 rounded-xl shadow-md max-w-3xl mx-auto" id='pkay'>
-            <form id="settingsForm">
+        <div class="bg-white p-8 rounded-xl shadow-md max-w-3xl mx-auto" >
+            <form id="settingsForm" id='pkay'>
                 <!-- Library System Settings Section -->
                 <div class="mb-8 pb-8 border-b border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-700 mb-6">Library System Settings</h3>

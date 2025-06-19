@@ -100,6 +100,7 @@
 
 
 <style>
+
     /* Navigation Link Styles */
     .nav-link {
         position: relative;
@@ -186,6 +187,7 @@
         overflow: hidden;
         text-decoration: none;
         transition: all 0.3s ease;
+        margin: 0;
     }
 
     .menu-card::before {

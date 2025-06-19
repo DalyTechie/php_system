@@ -11,7 +11,7 @@ require_once 'db.php'; // Include database connection
         /* Custom Table Styles */
         .inventory-container {
             padding: 20px;
-            margin: 20px;
+            margin: 0px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -39,7 +39,7 @@ require_once 'db.php'; // Include database connection
         }
 
         .btn-add {
-            background-color: #4CAF50;
+            background-color: #4f46e5;
             color: white;
             padding: 8px 16px;
             border: none;
@@ -50,7 +50,7 @@ require_once 'db.php'; // Include database connection
         }
 
         .btn-add:hover {
-            background-color: #45a049;
+            background-color: #3730a3;
         }
 
         .inventory-table {
@@ -85,31 +85,37 @@ require_once 'db.php'; // Include database connection
         }
 
         .btn-edit {
-            background-color: #3498db;
-            color: white;
+            background: none;
+            color: #2563eb;
+            border: 1.5px solid #2563eb;
             padding: 6px 12px;
-            border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 13px;
-        }
-
-        .btn-delete {
-            background-color: #e74c3c;
-            color: white;
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
         }
 
         .btn-edit:hover {
-            background-color: #2980b9;
+            background: #2563eb11;
+            color: #174ea6;
+        }
+
+        .btn-delete {
+            background: none;
+            color: #e74c3c;
+            border: 1.5px solid #e74c3c;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
         }
 
         .btn-delete:hover {
-            background-color: #c0392b;
+            background: #e74c3c11;
+            color: #b91c1c;
         }
 
         /* Status Badge Styles */
@@ -335,8 +341,10 @@ require_once 'db.php'; // Include database connection
                 <div class="search-box">
                     <input type="text" placeholder="Search courses..." class="search-input" id="searchInput">
                     <button class="btn-add" onclick="openModal()">
+                        
                         <i class="fas fa-plus mr-2"></i>Add New Course
                     </button>
+                    
                 </div>
             </div>
 
@@ -368,8 +376,8 @@ require_once 'db.php'; // Include database connection
                                     
                                     <td>
                                         <div class='action-buttons'>
-                                            <button class='btn-edit' onclick='editCourse(".$row['course_id'].")'><i class='fas fa-edit mr-1'></i>Edit</button>
-                                            <button class='btn-delete' onclick='deleteCourse(".$row['course_id'].")'><i class='fas fa-trash-alt mr-1'></i>Delete</button>
+                                            <button class='btn-edit' onclick='editCourse(".$row['course_id'].")'><span style='font-size:1.1em;'>✏️</span> Edit</button>
+                                            <button class='btn-delete' onclick='deleteCourse(".$row['course_id'].")'><span style='font-size:1.1em;'>🗑️</span> Delete</button>
                                         </div>
                                     </td>
                                 </tr>";
@@ -380,14 +388,6 @@ require_once 'db.php'; // Include database connection
                     ?>
                 </tbody>
             </table>
-
-            <div class="pagination">
-                <button>&laquo;</button>
-                <button class="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>&raquo;</button>
-            </div>
         </div>
     </div>
 

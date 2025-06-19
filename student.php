@@ -800,6 +800,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 grid-template-columns: 1fr;
             }
         }
+
+        .btn-info {
+            background: none;
+            color: #0dcaf0;
+            border: 1.5px solid #0dcaf0;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-info:hover {
+            background: #0dcaf011;
+            color: #0a8ca0;
+        }
+
+        .btn-primary {
+            background: none;
+            color: #3730a3;
+            border: 1.5px solid #3730a3;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-primary:hover {
+            background: #3730a311;
+            color: #1e1b4b;
+        }
+
+        .btn-danger {
+            background: none;
+            color: #dc3545;
+            border: 1.5px solid #dc3545;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-danger:hover {
+            background: #dc354511;
+            color: #a71d2a;
+        }
     </style>
 </head>
 <body>
@@ -810,7 +846,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="text-2xl font-semibold text-gray-900">Student Management</h1>
             <div class="header-actions">
                 <input type="text" placeholder="Search students..." class="search-input">
-                <button class="btn btn-primary" onclick="openAddStudentModal()">
+                <button class="btn btn-primary" style="  background-color:rgb(25, 80, 231); color: #fff; border: none;"onclick="openAddStudentModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
                     </svg>
@@ -835,7 +871,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php
                     require("db.php");
                     
-                    $sql = "SELECT s.*, c.course_name,
+                    $sql = "SELECT *, c.course_name,
                            (SELECT COUNT(*) FROM tblborrower b 
                             WHERE b.student_id = s.student_id AND b.return_date IS NULL) as active_borrows
                            FROM tblstudent s 
@@ -866,13 +902,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<td>" . $borrowStatus . "</td>";
                             echo "<td class='actions'>
                                     <button onclick='viewDetails(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-info btn-sm'>
-                                        <i class='fas fa-eye'></i> View
+                                        <span style='font-size:1.1em;'>👁️</span> View
                                     </button>
                                     <button onclick='editStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-primary btn-sm'>
-                                        <i class='fas fa-edit'></i> Edit
+                                        <span style='font-size:1.1em;'>✏️</span> Edit
                                     </button>
                                     <button onclick='deleteStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-danger btn-sm'>
-                                        <i class='fas fa-trash'></i> Delete
+                                        <span style='font-size:1.1em;'>🗑️</span> Delete
                                     </button>
                                 </td>";
                             echo "</tr>";
@@ -883,25 +919,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
                 </tbody>
             </table>
-            
-            <div class="pagination">
-                <span class="page-info">Showing 1 to 10 of 100 entries</span>
-                <div class="page-buttons">
-                    <button class="page-btn">Previous</button>
-                    <button class="page-btn active">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">3</button>
-                    <button class="page-btn">Next</button>
-                </div>
-            </div>
         </div>
 
         <!-- Floating Add Button -->
-        <div class="floating-add-btn" onclick="openAddStudentModal()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
-            </svg>
-        </div>
+        
     </div>
 
     <!-- Add Student Modal -->
@@ -1001,7 +1022,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </div>
-
+<?php 
+ include 'components/top_bar.php';
+?>
     <!-- View Details Modal -->
     <div id="viewDetailsModal" class="modal">
         <div class="modal-content">
@@ -1050,9 +1073,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-    <?php 
- include 'components/top_bar.php';
-?>
+
+
+
     <script>
         // Search functionality
         document.querySelector('.search-input').addEventListener('input', function(e) {
