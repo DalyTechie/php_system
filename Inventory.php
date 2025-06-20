@@ -8,20 +8,26 @@ require_once 'db.php'; // Include database connection
 <head>
     <?php include 'components/head.php'; ?>
     <style>
+        
         /* Custom Table Styles */
         .inventory-container {
             padding: 20px;
             margin: 0px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        
+     
+     
+     
+            background-color: #f3f4f6;
+            border-radius: 5px;
+ margin-left: 20px;
+
         }
 
         .table-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 50px;
         }
 
         .search-box {
@@ -45,7 +51,7 @@ require_once 'db.php'; // Include database connection
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             transition: background-color 0.3s;
         }
 
@@ -54,25 +60,31 @@ require_once 'db.php'; // Include database connection
         }
 
         .inventory-table {
-            width: 100%;
-            border-collapse: collapse;
+            width: 98%;
+      
+            border-style:groove;
             margin-top: 10px;
-            font-size: 14px;
+            font-size: 19px;
+            margin-left: 0px;
         }
 
         .inventory-table th {
             background-color: #f8fafc;
             padding: 12px;
             text-align: left;
-            font-weight: 600;
-            color: #4a5568;
+            font-weight: 100;
+            
             border-bottom: 2px solid #e2e8f0;
+       
+            
         }
 
         .inventory-table td {
             padding: 12px;
             border-bottom: 1px solid #e2e8f0;
             color: #4a5568;
+            background-color: white;
+            
         }
 
         .inventory-table tr:hover {
@@ -351,7 +363,9 @@ require_once 'db.php'; // Include database connection
             <table class="inventory-table">
                 <thead>
                     <tr>
-                        <th>Course ID</th>
+                        <th id="sortCourseId" style="cursor:pointer;">
+                            Course ID <span id="courseIdArrow">▲▼</span>
+                        </th>
                         <th>Course Title</th>
                         <th>Code</th>
                         <th>Description</th>
@@ -538,6 +552,26 @@ require_once 'db.php'; // Include database connection
                 });
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let ascCourse = true;
+            const th = document.getElementById('sortCourseId');
+            const arrow = document.getElementById('courseIdArrow');
+            th.addEventListener('click', function() {
+                // Find the table body
+                const tbody = document.querySelector('.inventory-table tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                rows.sort(function(a, b) {
+                    // Course ID is in the first column (index 0)
+                    let idA = parseInt(a.cells[0].innerText.trim(), 10);
+                    let idB = parseInt(b.cells[0].innerText.trim(), 10);
+                    return ascCourse ? idA - idB : idB - idA;
+                });
+                rows.forEach(row => tbody.appendChild(row));
+                ascCourse = !ascCourse;
+                arrow.textContent = ascCourse ? '▲▼' : '▼▲';
+            });
+        });
     </script>
          <?php include 'components/top_bar.php'; ?>
 </body>

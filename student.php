@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         /* Main container styles */
         .main-container {
             margin-left: 16rem;  /* Match sidebar width */
-            min-height: 100vh;
+            min-height: 50vh;
             padding: 2rem;
             width: calc(100% - 16rem);  /* Full width minus sidebar */
             box-sizing: border-box;

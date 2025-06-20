@@ -101,6 +101,47 @@ FROM
     LEFT JOIN `tblcourse` ON `tblborrower`.`course_id` = `tblcourse`.`course_id`;
     
 
+CREATE OR REPLACE VIEW vreturn AS
+SELECT
+    br.borrow_id,
+    br.student_id,
+    s.firstname AS first_name,
+    s.lastname AS last_name,
+    br.book_id,
+    b.title,
+    br.return_date,
+    br.status
+FROM
+    tblborrower br
+    INNER JOIN tblstudent s ON br.student_id = s.student_id
+    INNER JOIN tblbooks b ON br.book_id = b.book_id
+WHERE
+    br.status = 'returned';
+SELECT * FROM vreturn;    
+CREATE OR REPLACE VIEW vborrowlist AS
+SELECT
+    br.borrow_id,
+    s.firstname,
+    s.lastname,
+    s.student_id,
+    b.title,
+    b.book_id,
+    c.course_name,
+    br.borrow_date
+FROM tblborrower br
+INNER JOIN tblstudent s ON br.student_id = s.student_id
+INNER JOIN tblbooks b ON br.book_id = b.book_id
+LEFT JOIN tblcourse c ON s.course_id = c.course_id
+ORDER BY br.borrow_date DESC;
+
+SELECT * FROM vborrowlist;
+
+ALTER TABLE tblborrower ADD COLUMN due_date DATE NOT NULL DEFAULT '2099-12-31';
+
+DESCRIBE tblborrower;
+
+
+
 
 
 

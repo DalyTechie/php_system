@@ -311,12 +311,14 @@ require_once 'session_check.php';
             <table class="books-table">
                 <thead>
                     <tr>
-                        <th>BorrowID</th>
-                        <th>Student Name</th>
+                        <th id="sortBorrowId" style="cursor:pointer;">
+                            BorrowID <span id="borrowIdArrow">▲▼</span>
+                        </th>
+                        <th>Student_Name</th>
                         <th>Title</th>
                         <th>Course</th>
-                        <th>Borrow Date</th>
-                        <th>Return Date</th>
+                        <th>Borrow_Date</th>
+                        <th>Return_Date</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -555,6 +557,7 @@ require_once 'session_check.php';
                     <select name="status" id="edit_status" class="form-control" required>
                         <option value="borrowed">Borrowed</option>
                         <option value="returned">Returned</option>
+                        <option value="overdue">Overdue</option>
                     </select>
                 </div>
                
@@ -837,6 +840,25 @@ require_once 'session_check.php';
                 tr.style.display = text.includes(filter) ? '' : 'none';
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let asc = true;
+            const th = document.getElementById('sortBorrowId');
+            const arrow = document.getElementById('borrowIdArrow');
+            th.addEventListener('click', function() {
+                const tbody = document.getElementById('borrowTableBody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                rows.sort(function(a, b) {
+                    // BorrowID is in the first column (index 0)
+                    let idA = parseInt(a.cells[0].innerText.trim(), 10);
+                    let idB = parseInt(b.cells[0].innerText.trim(), 10);
+                    return asc ? idA - idB : idB - idA;
+                });
+                rows.forEach(row => tbody.appendChild(row));
+                asc = !asc;
+                arrow.textContent = asc ? '▲▼' : '▼▲';
+            });
+        });
     </script>
          <?php include 'components/top_bar.php'; ?>
 </body>

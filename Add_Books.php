@@ -296,7 +296,9 @@
             <table class="books-table">
                 <thead>
                     <tr>
-                        <th>Book ID</th>
+                        <th id="sortBookId" style="cursor:pointer;">
+                            Book ID <span id="bookIdArrow">▲▼</span>
+                        </th>
                         <th>Title</th>
                         <!-- <th>ISBN</th> -->
                         <th>Author</th>
@@ -553,6 +555,25 @@
 
         // Add event listener for search input
         document.getElementById('searchInput').addEventListener('keyup', searchBooks);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let ascBook = true;
+            const th = document.getElementById('sortBookId');
+            const arrow = document.getElementById('bookIdArrow');
+            th.addEventListener('click', function() {
+                const tbody = document.getElementById('booksTableBody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                rows.sort(function(a, b) {
+                    // Book ID is in the first column (index 0)
+                    let idA = parseInt(a.cells[0].innerText.trim(), 10);
+                    let idB = parseInt(b.cells[0].innerText.trim(), 10);
+                    return ascBook ? idA - idB : idB - idA;
+                });
+                rows.forEach(row => tbody.appendChild(row));
+                ascBook = !ascBook;
+                arrow.textContent = ascBook ? '▲▼' : '▼▲';
+            });
+        });
     </script>
        <?php include 'components/top_bar.php'; ?>
 </body>
