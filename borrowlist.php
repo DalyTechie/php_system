@@ -160,13 +160,29 @@ include 'components/head.php';
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
+                // Determine status class based on status value
+                $statusClass = '';
+                switch(strtolower($row['status'])) {
+                    case 'borrowed':
+                        $statusClass = 'status-borrowed';
+                        break;
+                    case 'returned':
+                        $statusClass = 'status-returned';
+                        break;
+                    case 'overdue':
+                        $statusClass = 'status-overdue';
+                        break;
+                    default:
+                        $statusClass = 'status-borrowed'; // default fallback
+                }
+                
                 echo "<tr>
                         <td>".htmlspecialchars($row['borrow_id'])."</td>
                         <td>".htmlspecialchars($row['firstname'].' '.$row['lastname'])."</td>
                         <td>".htmlspecialchars($row['title'])."</td>
                         <td>".htmlspecialchars(date('Y-m-d', strtotime($row['borrow_date'])))."</td>
                         <td>".htmlspecialchars($row['return_date'] ? date('Y-m-d', strtotime($row['return_date'])) : '')."</td>
-                        <td>".htmlspecialchars($row['status'])."</td>
+                        <td><span class='status-badge {$statusClass}'>".htmlspecialchars($row['status'])."</span></td>
                     </tr>";
             }
         } else {

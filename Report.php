@@ -16,14 +16,14 @@ $currentlyBorrowed = $conn->query("
     SELECT COUNT(*) AS total FROM tblborrower WHERE status = 'borrowed'
 ")->fetch_assoc()['total'];
 
-// Overdue Books
+// Overdue Books - Count books with status = 'overdue'
 $overdueBooks = $conn->query("
-    SELECT COUNT(*) AS total FROM tblborrower WHERE status = 'borrowed' AND return_date < CURDATE()
+    SELECT COUNT(*) AS total FROM tblborrower WHERE status = 'overdue'
 ")->fetch_assoc()['total'];
 
 include 'components/head.php';
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -85,10 +85,11 @@ include 'components/head.php';
         letter-spacing: 1px;
         border-bottom: 4px solid #4fd1c5;
         transition: transform 0.15s, box-shadow 0.15s;
+        cursor: pointer;
     }
     .card:hover {
-        transform: translateY(-6px) scale(1.03);
-        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.16), 0 3px 8px rgba(44, 62, 80, 0.12);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
     .card.total-books {
         border-bottom: 4px solid #4299e1; /* blue */
@@ -149,6 +150,80 @@ include 'components/head.php';
         .dashboard-cards { flex-direction: column; align-items: center; }
         .card { min-width: 90%; }
     }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close:hover {
+        color: #000;
+    }
+    
+    .list-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    
+    .list-table th, .list-table td {
+        border: 1px solid #e5e7eb;
+        padding: 12px;
+        text-align: left;
+    }
+    
+    .list-table th {
+        background: #f8fafc;
+        color: #374151;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+    
+    .list-table tr:nth-child(even) {
+        background: #f9fafb;
+    }
+    
+    .list-table tr:hover {
+        background: #f3f4f6;
+        transition: background-color 0.2s;
+    }
+    
+    /* Status badge animations */
+    .list-table span {
+        transition: all 0.2s ease;
+    }
+    
+    .list-table span:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    }
     </style>
 </head>
 <body>
@@ -163,10 +238,10 @@ include 'components/head.php';
     <div class="main-container">
     <h1 class="pkay">Library Reports & Statistics</h1>
         <div class="dashboard-cards">
-            <div class="card total-books">Total Books: <?= $totalBooks ?></div>
-            <div class="card borrowed-month">Books Borrowed This Month: <?= $booksBorrowedThisMonth ?></div>
-            <div class="card currently-borrowed">Currently Borrowed: <?= $currentlyBorrowed ?></div>
-            <div class="card overdue-books">Overdue Books: <?= $overdueBooks ?></div>
+            <div class="card total-books" onclick="showBookList('all')">Total Books: <?= $totalBooks ?></div>
+            <div class="card borrowed-month" onclick="showBookList('borrowed-month')">Books Borrowed This Month: <?= $booksBorrowedThisMonth ?></div>
+            <div class="card currently-borrowed" onclick="showBookList('currently-borrowed')">Currently Borrowed: <?= $currentlyBorrowed ?></div>
+            <div class="card overdue-books" onclick="showBookList('overdue')">Overdue Books: <?= $overdueBooks ?></div>
         </div>
         <div class="table-section">
             <h2>Most Borrowed Books</h2>
@@ -180,6 +255,7 @@ include 'components/head.php';
                 <tbody>
                     <?php
                     $mostBorrowedBooks = $conn->query("
+                    
                         SELECT b.title, COUNT(*) AS times_borrowed
                         FROM tblborrower br
                         INNER JOIN tblbooks b ON br.book_id = b.book_id
@@ -232,7 +308,260 @@ include 'components/head.php';
         </div>
     </div> 
 
+<!-- Add the modal for displaying lists -->
+<div id="listModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">Book List</h2>
+        <div id="modalContent">
+            <!-- Content will be loaded here -->
+        </div>
+    </div>
+</div>
+
 <?php include 'components/top_bar.php'; ?>
 <script src="js/charts.js"></script>
+<script>
+function showBookList(type) {
+    const modal = document.getElementById('listModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    
+    // Set title based on type
+    switch(type) {
+        case 'all':
+            modalTitle.textContent = 'All Books in Library';
+            break;
+        case 'borrowed-month':
+            modalTitle.textContent = 'Books Borrowed This Month';
+            break;
+        case 'currently-borrowed':
+            modalTitle.textContent = 'Currently Borrowed Books';
+            break;
+        case 'overdue':
+            modalTitle.textContent = 'Overdue Books';
+            break;
+    }
+    
+    // Show loading
+    modalContent.innerHTML = '<p>Loading...</p>';
+    modal.style.display = 'block';
+    
+    // Fetch data using AJAX
+    fetch(`get_report_data.php?type=${type}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                modalContent.innerHTML = createTableHTML(data.data, type, data.count);
+            } else {
+                modalContent.innerHTML = '<p>Error loading data: ' + (data.message || 'Unknown error') + '</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            modalContent.innerHTML = '<p>Error loading data: ' + error.message + '</p>';
+        });
+}
+
+function createTableHTML(data, type, count) {
+    if (!data || data.length === 0) {
+        return '<p>No data available.</p>';
+    }
+    
+    let tableHTML = `<div style="margin-bottom: 15px; font-weight: bold; color: #374151;">Total Count: ${count}</div>`;
+    tableHTML += '<table class="list-table">';
+    
+    // Create headers based on type
+    switch(type) {
+        case 'all':
+            tableHTML += `
+                <thead>
+                    <tr>
+                        <th style="cursor: pointer; user-select: none;" onclick="sortTable('book_id')">
+                            Book ID 
+                            <span id="book_id_sort" style="margin-left: 5px;">▲▼</span>
+                        </th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Category</th>
+                        <th>Year</th>
+                        <th>Publisher</th>
+                    </tr>
+                </thead>
+            `;
+            break;
+        case 'borrowed-month':
+        case 'currently-borrowed':
+        case 'overdue':
+            tableHTML += `
+                <thead>
+                    <tr>
+                        <th style="cursor: pointer; user-select: none;" onclick="sortTable('borrow_id')">
+                            Borrow ID 
+                            <span id="borrow_id_sort" style="margin-left: 5px;">▲▼</span>
+                        </th>
+                        <th>Student Name</th>
+                        <th>Book Title</th>
+                        <th>Borrow Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+            `;
+            break;
+    }
+    
+    tableHTML += '<tbody id="tableBody">';
+    
+    // Helper function to format N/A values with colored badges
+    function formatValue(value) {
+        if (!value || value === 'N/A') {
+            return '<span style="background-color: #9ca3af; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px;">N/A</span>';
+        }
+        return value;
+    }
+    
+    data.forEach(item => {
+        tableHTML += '<tr>';
+        
+        switch(type) {
+            case 'all':
+                tableHTML += `
+                    <td data-sort="${item.book_id || 0}">${item.book_id || 'N/A'}</td>
+                    <td>${item.title || 'N/A'}</td>
+                    <td>${formatValue(item.author)}</td>
+                    <td>${formatValue(item.isbn)}</td>
+                    <td>${formatValue(item.category)}</td>
+                    <td>${formatValue(item.publication_year)}</td>
+                    <td>${formatValue(item.publisher)}</td>
+                `;
+                break;
+            case 'borrowed-month':
+            case 'currently-borrowed':
+            case 'overdue':
+                // Format dates to remove time
+                const borrowDate = item.borrow_date ? item.borrow_date.split(' ')[0] : 'N/A';
+                const dueDate = item.due_date ? item.due_date.split(' ')[0] : 'N/A';
+                
+                // Create colored status badge
+                const statusBadge = createStatusBadge(item.status);
+                
+                tableHTML += `
+                    <td data-sort="${item.borrow_id || 0}">${item.borrow_id || 'N/A'}</td>
+                    <td>${item.student_name || 'N/A'}</td>
+                    <td>${item.book_title || 'N/A'}</td>
+                    <td>${borrowDate}</td>
+                    <td>${formatValue(dueDate)}</td>
+                    <td>${statusBadge}</td>
+                `;
+                break;
+        }
+        
+        tableHTML += '</tr>';
+    });
+    
+    tableHTML += '</tbody></table>';
+    
+    // Store the data for sorting
+    window.currentTableData = data;
+    window.currentTableType = type;
+    
+    return tableHTML;
+}
+
+// Add sorting functionality
+let sortDirection = 'asc';
+
+function sortTable(column) {
+    const tbody = document.getElementById('tableBody');
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+    
+    // Update sort indicator
+    const sortIndicator = document.getElementById(column + '_sort');
+    if (sortDirection === 'asc') {
+        sortIndicator.textContent = '▲';
+        sortDirection = 'desc';
+    } else {
+        sortIndicator.textContent = '▼';
+        sortDirection = 'asc';
+    }
+    
+    // Sort rows
+    rows.sort((a, b) => {
+        const aValue = parseInt(a.querySelector(`td[data-sort]`).getAttribute('data-sort')) || 0;
+        const bValue = parseInt(b.querySelector(`td[data-sort]`).getAttribute('data-sort')) || 0;
+        
+        if (sortDirection === 'asc') {
+            return aValue - bValue;
+        } else {
+            return bValue - aValue;
+        }
+    });
+    
+    // Reorder rows in the table
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// Add hover effect for sortable headers
+document.addEventListener('DOMContentLoaded', function() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .list-table th[onclick] {
+            transition: background-color 0.2s;
+        }
+        .list-table th[onclick]:hover {
+            background-color: #e5e7eb !important;
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+function createStatusBadge(status) {
+    switch(status.toLowerCase()) {
+        case 'overdue':
+            return '<span style="background: #fee2e2; color: #dc2626; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);">OVERDUE</span>';
+            
+        case 'borrowed':
+            return '<span style="background: #dbeafe; color: #1d4ed8; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(29, 78, 216, 0.1);">BORROWED</span>';
+            
+        case 'returned':
+            return '<span style="background: #dcfce7; color: #16a34a; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);">RETURNED</span>';
+            
+        case 'lost':
+            return '<span style="background: #fef9c3; color: #b45309; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(180, 83, 9, 0.1);">LOST</span>';
+            
+        case 'pending':
+            return '<span style="background: #f3e8ff; color: #7c3aed; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(124, 58, 237, 0.1);">PENDING</span>';
+            
+        default:
+            return `<span style="background: #f3f4f6; color:rgb(133, 45, 45); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase;">${status || 'N/A'}</span>`;
+    }
+}
+
+function closeModal() {
+    document.getElementById('listModal').style.display = 'none';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('listModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+    }
+});
+</script>
 </body>
 </html>
