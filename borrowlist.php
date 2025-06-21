@@ -123,14 +123,28 @@ include 'components/head.php';
 
     <?php
     require("db.php");
+
+    // Get search term and date range
     $search = isset($_POST['txtsearch']) ? trim($_POST['txtsearch']) : '';
+    $start_borrow = isset($_POST['start_borrow']) ? $_POST['start_borrow'] : '';
+    $end_borrow = isset($_POST['end_borrow']) ? $_POST['end_borrow'] : '';
+    $start_return = isset($_POST['start_return']) ? $_POST['start_return'] : '';
+    $end_return = isset($_POST['end_return']) ? $_POST['end_return'] : '';
     ?>
-    <form method="post" class="search-form">
-        <input type="text" name="txtsearch" class="search-box-input" placeholder="Search by Borrow ID..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
+
+    <!-- Search Form -->
+    <form method="post" class="search-form" style="align-items: center;">
+        <!-- Borrow Date range filter -->
+        <label for="start_borrow" style="margin-left: 1rem; font-weight: 500;">Borrow Date To :</label>
+        <input type="date" id="start_borrow" name="start_borrow" class="search-box-input" style="width: 150px;" value="<?php echo htmlspecialchars($start_borrow); ?>">
+        <!-- Return Date range filter -->
+        <label for="end_return" style="margin-left: 0.5rem; font-weight: 500;">Return Date To:</label>
+        <input type="date" id="end_return" name="end_return" class="search-box-input" style="width: 150px;" value="<?php echo htmlspecialchars($end_return); ?>">
+
         <input type="submit" value="Search" name="btnsearch" class="search-btn">
         <button type="button" class="reset-btn" id="resetBtn">Reset</button>
-       
     </form>
+    
     <table class="borrow-table" id="borrowTable">
         <thead>
             <tr>
@@ -149,12 +163,46 @@ include 'components/head.php';
                 FROM tblborrower br
                 INNER JOIN tblstudent s ON br.student_id = s.student_id
                 INNER JOIN tblbooks b ON br.book_id = b.book_id";
+
+        // Build WHERE conditions
+        $conditions = [];
+        $params = [];
+        $types = '';
+
         if (!empty($search)) {
-            $sql .= " WHERE br.borrow_id LIKE CONCAT('%', ?, '%')";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param('s', $search);
-        } else {
-            $stmt = $conn->prepare($sql);
+            $conditions[] = "br.borrow_id LIKE ?";
+            $params[] = "%" . $search . "%";
+            $types .= 's';
+        }
+        if (!empty($start_borrow)) {
+            $conditions[] = "DATE(br.borrow_date) >= ?";
+            $params[] = $start_borrow;
+            $types .= 's';
+        }
+        if (!empty($end_borrow)) {
+            $conditions[] = "DATE(br.borrow_date) <= ?";
+            $params[] = $end_borrow;
+            $types .= 's';
+        }
+        if (!empty($start_return)) {
+            $conditions[] = "DATE(br.return_date) >= ?";
+            $params[] = $start_return;
+            $types .= 's';
+        }
+        if (!empty($end_return)) {
+            $conditions[] = "DATE(br.return_date) <= ?";
+            $params[] = $end_return;
+            $types .= 's';
+        }
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(' AND ', $conditions);
+        }
+
+        // Prepare and execute statement
+        $stmt = $conn->prepare($sql);
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
         }
         $stmt->execute();
         $result = $stmt->get_result();
@@ -180,8 +228,8 @@ include 'components/head.php';
                         <td>".htmlspecialchars($row['borrow_id'])."</td>
                         <td>".htmlspecialchars($row['firstname'].' '.$row['lastname'])."</td>
                         <td>".htmlspecialchars($row['title'])."</td>
-                        <td>".htmlspecialchars(date('Y-m-d', strtotime($row['borrow_date'])))."</td>
-                        <td>".htmlspecialchars($row['return_date'] ? date('Y-m-d', strtotime($row['return_date'])) : '')."</td>
+                        <td>".htmlspecialchars(!empty($row['borrow_date']) ? date('m/d/Y', strtotime($row['borrow_date'])) : '')."</td>
+                        <td>".htmlspecialchars(!empty($row['return_date']) ? date('m/d/Y', strtotime($row['return_date'])) : '')."</td>
                         <td><span class='status-badge {$statusClass}'>".htmlspecialchars($row['status'])."</span></td>
                     </tr>";
             }
@@ -196,14 +244,16 @@ include 'components/head.php';
     document.addEventListener('DOMContentLoaded', function() {
         // SEARCH
         const searchInput = document.querySelector('.search-box-input');
-        searchInput.addEventListener('keyup', function() {
-            let input = this.value.toLowerCase();
-            let rows = document.querySelectorAll('#borrowTable tbody tr');
-            rows.forEach(row => {
-                let text = row.textContent.toLowerCase();
-                row.style.display = text.includes(input) ? '' : 'none';
-            });
-        });
+        
+        // This keyup listener can be removed if you only want to search on button click
+        // searchInput.addEventListener('keyup', function() {
+        //     let input = this.value.toLowerCase();
+        //     let rows = document.querySelectorAll('#borrowTable tbody tr');
+        //     rows.forEach(row => {
+        //         let text = row.textContent.toLowerCase();
+        //         row.style.display = text.includes(input) ? '' : 'none';
+        //     });
+        // });
 
         // SORT
         const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
@@ -246,7 +296,8 @@ include 'components/head.php';
         });
     });
     document.getElementById('resetBtn').onclick = function() {
-        document.querySelector('.search-box-input').value = '';
+        document.getElementById('start_borrow').value = '';
+        document.getElementById('end_return').value = '';
         document.forms[0].submit();
     };
     </script>
