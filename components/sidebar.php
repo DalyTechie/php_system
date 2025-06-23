@@ -2,8 +2,8 @@
     <div class="flex flex-col h-full">
         <!-- Dashboard Header -->
     <div class="p-6 border-b">
-            <h1 class="text-xl font-semibold text-gray-800" >
-                <span style="font-size:1.6rem;">📚</span> Library System
+            <h1 class="text-lg font-semibold text-gray-800 text-center whitespace-nowrap" >
+               📚ប្រព័ន្ធគ្រប់គ្រងបណ្ណាល័យ
             </h1>
         </div>
         
@@ -14,36 +14,37 @@
             <!-- Dashboard Link -->
             <a href="index.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">🏠</span>
-                Dashboard
+                ទំព័រដើម
             </a>
 
             <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mt-6 mb-4">Management</p>
                          <!-- Inventory Link -->
             <a href="Inventory.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg transition-colors duration-150">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">📚</span>
-                Course
+              ដេប៉ាទីម៉ង
             </a>
         
             <a href="student.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2 transition-colors duration-150">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">🎓</span>
-                Student_List
+                 ព័ត៌មានអំពីអ្នកខ្ចីសៀវភៅ
             </a>
             <!-- Add Books Link -->
             <a href="Add_Books.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2 transition-colors duration-150">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">📘</span>
-                Add Books
+                 ព័ត៌មានអំពីសៀវភៅ
+                
             </a>
 
             <!-- Borrowers Link -->
             <a href="Borrow.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2 transition-colors duration-150">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">👥</span>
-                Borrowers
+                គ្រប់គ្រងលើខ្ចីសៀវភៅ
             </a>
 
             <!-- Returns Link -->
             <a href="Return.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2 transition-colors duration-150">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">🔄</span>
-                Returns
+                ព័ត៌មានការសងសៀវភៅ
             </a>
 <!-- Divider for System Menu -->
 <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mt-6 mb-4">System</p>
@@ -130,5 +131,9 @@
     nav.flex-1.p-4:hover {
         background: #ede9fe; /* Slightly deeper pastel on hover */
         box-shadow: 0 8px 24px rgba(136, 96, 208, 0.13);
+    }
+    h1 , a {
+        font-family: 'Khmer OS SiemReap';
+        /* color: #4f46e5; Deep purple for text */
     }
 </style>

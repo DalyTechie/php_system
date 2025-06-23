@@ -40,7 +40,7 @@ if (!$course) {
 
         .form-header h2 {
             color: #2d3748;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
             margin: 0;
         }

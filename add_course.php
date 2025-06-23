@@ -22,7 +22,7 @@ require_once 'db.php';
 
         .form-header h2 {
             color: #2d3748;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
         }
 
@@ -119,8 +119,8 @@ require_once 'db.php';
 </head>
 <body class="bg-gray-100">
     <?php include 'components/sidebar.php'; ?>
-    
     <div class="ml-64">
+        <?php include 'components/dashboard_stats.php'; ?>
         <?php include 'components/top_bar.php'; ?>
         
         <div class="form-container">

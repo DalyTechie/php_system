@@ -9,6 +9,9 @@ require_once 'session_check.php';
     <title>Borrow Books - Library Management System</title>
     <?php include 'components/head.php'; ?>
     <?php include 'components/sidebar.php'; ?>
+    <div class="ml-64">
+        <?php include 'components/dashboard_stats.php'; ?>
+    </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .main-container {
@@ -157,7 +160,7 @@ require_once 'session_check.php';
 
         .close-btn {
             color: #aaa;
-            font-size: 28px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
             background: none;
@@ -357,11 +360,15 @@ require_once 'session_check.php';
                             $borrow_date = date('Y-m-d', strtotime($row['borrow_date']));
                             $return_date = date('Y-m-d', strtotime($row['return_date']));
                             
+                            // Safe checks for course_id and course_name
+                            $course_id_display = isset($row['course_id']) && $row['course_id'] !== null ? htmlspecialchars($row['course_id']) : 'N/A';
+                            $course_name_display = isset($row['course_name']) && $row['course_name'] !== null ? htmlspecialchars($row['course_name']) : 'N/A';
+                            
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['borrow_id']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['title']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['course_name'] ?? 'N/A') . "</td>";
+                            echo "<td>" . $course_name_display . "</td>";
                             echo "<td>" . $borrow_date . "</td>";
                             echo "<td>" . $return_date . "</td>";
                             echo "<td><span class='status-" . strtolower($row['status']) . "'>" . 
@@ -517,7 +524,6 @@ require_once 'session_check.php';
                             while ($book = $books_result->fetch_assoc()) {
                                 echo "<option value='" . $book['book_id'] . "'>" . 
                                      htmlspecialchars($book['title']) . "</option>";
-                             
                             }
                         }
                         ?>
@@ -601,6 +607,27 @@ require_once 'session_check.php';
 
         // Function to open edit modal
         function openEditModal(borrowId) {
+            const toRemove = [];
+            const courseSelect = document.getElementById('edit_course_id');
+            Array.from(courseSelect.options).forEach(function(opt) {
+                if (opt.textContent.startsWith('[Missing Course:')) {
+                    toRemove.push(opt);
+                }
+            });
+            toRemove.forEach(opt => courseSelect.removeChild(opt));
+            const studentSelect = document.getElementById('edit_student_id');
+            Array.from(studentSelect.options).forEach(function(opt) {
+                if (opt.textContent.startsWith('[Missing Student:')) {
+                    studentSelect.removeChild(opt);
+                }
+            });
+            const bookSelect = document.getElementById('edit_book_id');
+            Array.from(bookSelect.options).forEach(function(opt) {
+                if (opt.textContent.startsWith('[Missing Book:')) {
+                    bookSelect.removeChild(opt);
+                }
+            });
+
             fetch('get_borrow.php?id=' + borrowId)
                 .then(response => response.json())
                 .then(data => {
@@ -613,12 +640,41 @@ require_once 'session_check.php';
                         document.getElementById('edit_return_date').value = borrow.return_date;
                         document.getElementById('edit_status').value = borrow.status;
                         document.getElementById('edit_course_id').value = borrow.course_id;
+                        // Fallback for missing course_id
+                        const courseId = borrow.course_id;
+                        if (courseId && !Array.from(courseSelect.options).some(opt => opt.value == courseId)) {
+                            const opt = document.createElement('option');
+                            opt.value = courseId;
+                            opt.textContent = '[Missing Course: ' + courseId + ']';
+                            opt.selected = true;
+                            courseSelect.appendChild(opt);
+                        }
+                        // Fallback for missing student_id
+                        const studentId = borrow.student_id;
+                        if (studentId && !Array.from(studentSelect.options).some(opt => opt.value == studentId)) {
+                            const opt = document.createElement('option');
+                            opt.value = studentId;
+                            opt.textContent = '[Missing Student: ' + studentId + ']';
+                            opt.selected = true;
+                            studentSelect.appendChild(opt);
+                        }
+                        // Fallback for missing book_id
+                        const bookId = borrow.book_id;
+                        if (bookId && !Array.from(bookSelect.options).some(opt => opt.value == bookId)) {
+                            const opt = document.createElement('option');
+                            opt.value = bookId;
+                            opt.textContent = '[Missing Book: ' + bookId + ']';
+                            opt.selected = true;
+                            bookSelect.appendChild(opt);
+                        }
                         document.getElementById('editBorrowModal').style.display = 'block';
+                        console.log('Course options:', Array.from(courseSelect.options).map(opt => opt.value));
+                        console.log('Selected course:', borrow.course_id);
                     } else {
                         alert('Error: ' + data.message);
                     }
                 })
-                .catch(error => {
+                .catch(function(error) {
                     console.error('Error:', error);
                     alert('Error fetching borrow details');
                 });
@@ -837,7 +893,7 @@ require_once 'session_check.php';
 
             trs.forEach(tr => {
                 const text = tr.textContent.toLowerCase();
-                tr.style.display = text.includes(filter) ? '' : 'none';
+                tr.style.zdisplay = text.includes(filter) ? '' : 'none';
             });
         }
 

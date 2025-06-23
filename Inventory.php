@@ -8,103 +8,112 @@ require_once 'db.php'; // Include database connection
 <head>
     <?php include 'components/head.php'; ?>
     <style>
-        
-        /* Custom Table Styles */
-        .inventory-container {
-            padding: 20px;
-            margin: 0px;
-        
-     
-     
-     
+        /* Base styles for full width layout */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             background-color: #f3f4f6;
-            border-radius: 5px;
- margin-left: 20px;
+            font-family: 'Khmer OS Siemreap', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+       
 
+        /* Main container styles */
+        .main-container {
+            margin-left: 16rem;  /* Match sidebar width */
+            min-height: 50vh;
+            padding: 2rem;
+            width: calc(100% - 16rem);  /* Full width minus sidebar */
+            box-sizing: border-box;
+            background-color: #f3f4f6;
         }
 
-        .table-header {
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 50px;
+            margin-bottom: 2rem;
         }
 
-        .search-box {
+        .header-actions {
             display: flex;
-            gap: 10px;
-            align-items: center;
+            gap: 1rem;
         }
 
         .search-input {
-            padding: 8px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
             width: 300px;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
-        .btn-add {
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
             background-color: #4f46e5;
             color: white;
-            padding: 8px 16px;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            transition: background-color 0.3s;
         }
 
-        .btn-add:hover {
-            background-color: #3730a3;
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         .inventory-table {
-            width: 98%;
-      
-            border-style:groove;
-            margin-top: 10px;
-            font-size: 19px;
-            margin-left: 0px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .inventory-table th,
+        .inventory-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .inventory-table th {
-            background-color: #f8fafc;
-            padding: 12px;
-            text-align: left;
-            font-weight: 100;
-            
-            border-bottom: 2px solid #e2e8f0;
-       
-            
-        }
-
-        .inventory-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e2e8f0;
-            color: #4a5568;
-            background-color: white;
-            
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
         }
 
         .inventory-table tr:hover {
-            background-color: #f8fafc;
+            background-color: #f9fafb;
         }
 
         .action-buttons {
             display: flex;
-            gap: 8px;
+            gap: 0.5rem;
         }
 
         .btn-edit {
-            background: none;
+            background:  #2563eb;
             color: #2563eb;
             border: 1.5px solid #2563eb;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 0.875rem;
+            font-weight: 500;
             transition: background 0.2s, color 0.2s;
         }
 
@@ -114,65 +123,20 @@ require_once 'db.php'; // Include database connection
         }
 
         .btn-delete {
-            background: none;
+            background:  #e74c3c;
             color: #e74c3c;
             border: 1.5px solid #e74c3c;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 0.875rem;
+            font-weight: 500;
             transition: background 0.2s, color 0.2s;
         }
 
         .btn-delete:hover {
             background: #e74c3c11;
             color: #b91c1c;
-        }
-
-        /* Status Badge Styles */
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-active {
-            background-color: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .status-inactive {
-            background-color: #ffebee;
-            color: #c62828;
-        }
-
-        /* Pagination Styles */
-        .pagination {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-            gap: 5px;
-        }
-
-        .pagination button {
-            padding: 6px 12px;
-            border: 1px solid #e2e8f0;
-            background-color: white;
-            color: #4a5568;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .pagination button.active {
-            background-color: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-
-        .pagination button:hover:not(.active) {
-            background-color: #f8fafc;
         }
 
         /* Modal Styles */
@@ -185,76 +149,90 @@ require_once 'db.php'; // Include database connection
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 2rem 1rem;
         }
 
         .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 600px;
             position: relative;
-            background-color: #fff;
-            margin: 50px auto;
-            padding: 20px;
-            width: 50%;
-            max-width: 500px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            animation: modalAppear 0.3s ease-out;
+            margin: auto;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        /* Add animation for modal appearance */
-        @keyframes modalAppear {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
         }
 
         .close {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #666;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
             cursor: pointer;
-            transition: color 0.2s;
-            padding: 0 8px;
-            border-radius: 4px;                 
+            padding: 0.5rem;
+            margin: -0.5rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
         }
 
         .close:hover {
-            color: #000;
+            color: #111827;
             background-color: #f3f4f6;
         }
 
+        /* Form Styles */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            color: #4a5568;
+            font-size: 0.875rem;
             font-weight: 500;
-            font-size: 14px;
+            color: #374151;
+            margin-bottom: 0.5rem;
         }
 
         .form-control {
+            display: block;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #4a5568;
+            padding: 0.625rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #111827;
+            background-color: #ffffff;
+            background-clip: padding-box;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
         .form-control:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            color: #111827;
+            background-color: #ffffff;
+            border-color: #4f46e5;
+            outline: 0;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.25);
         }
 
         textarea.form-control {
@@ -262,115 +240,119 @@ require_once 'db.php'; // Include database connection
             resize: vertical;
         }
 
-        /* Add overlay styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
         }
+
+        .btn-submit {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-cancel {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #cbd5e0;
+        }
+
+        /* Course badge styling */
+        .course-badge {
+            background-color: #e0e7ff;
+            color: #4338ca;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .modal {
+                padding: 1rem;
+            }
+        }
+        .font-khmer h1{
+            font-family: 'Khmer OS Muol Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .header-title-btn-bg {
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+        }
+     
     </style>
 </head>
 <body class="bg-gray-100">
     <?php include 'components/sidebar.php'; ?>
-    
     <div class="ml-64">
-   
-        
-        <!-- Add this modal HTML before the inventory-container div -->
-        <div id="addCourseModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Add New Course</h2>
-                
-                <form id="addCourseForm">
-                    <div class="form-group">
-                        <label for="course_name">Course Title</label>
-                        <input type="text" id="course_name" name="course_name" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="course_code">Course Code</label>
-                        <input type="text" id="course_code" name="course_code" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" class="form-control" required></textarea>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="submit" class="btn-add">
-                            <i class="fas fa-save mr-2"></i>Save Course
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Edit Course Modal -->
-        <div id="editCourseModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeEditModal()">&times;</span>
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Edit Course</h2>
-                
-                <form id="editCourseForm">
-                    <input type="hidden" id="edit_course_id" name="course_id">
-                    
-                    <div class="form-group">
-                        <label for="edit_course_name">Course Title</label>
-                        <input type="text" id="edit_course_name" name="course_name" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="edit_course_code">Course Code</label>
-                        <input type="text" id="edit_course_code" name="course_code" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="edit_description">Description</label>
-                        <textarea id="edit_description" name="description" class="form-control" required></textarea>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="submit" class="btn-submit">
-                            <i class="fas fa-save mr-2"></i>Update Course
-                        </button>
-                        <button type="button" class="btn-cancel" onclick="closeEditModal()">
-                            <i class="fas fa-times mr-2"></i>Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="inventory-container">
-            <div class="table-header">
-                <h2 class="text-2xl font-semibold text-gray-800">Course Inventory</h2>
-                <div class="search-box">
-                    <input type="text" placeholder="Search courses..." class="search-input" id="searchInput">
-                    <button class="btn-add" onclick="openModal()">
-                        
-                        <i class="fas fa-plus mr-2"></i>Add New Course
-                    </button>
-                    
+        <?php include 'components/dashboard_stats.php'; ?>
+    </div>
+    
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="text-2xl  font-khmer header-title-btn-bg">បន្ថែមដេប៉ាទីម៉ង</h1>
+            <div class="header-actions">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="text" placeholder="Search..." class="search-input" id="searchInput" style="padding-right: 2.5rem;">
+                    <span style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background-color: #4f46e5; color: #fff; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                        </svg>
+                    </span>
                 </div>
+                <button class="btn btn-primary" onclick="openModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                    </svg>
+                    បញ្ចូលដេប៉ាទីម៉ង
+                </button>
             </div>
+        </div>
 
+        <div class="table-container">
             <table class="inventory-table">
                 <thead>
                     <tr>
                         <th id="sortCourseId" style="cursor:pointer;">
-                            Course ID <span id="courseIdArrow">▲▼</span>
+                            លរ.<span id="courseIdArrow">▲▼</span>
                         </th>
-                        <th>Course Title</th>
-                        <th>Code</th>
-                        <th>Description</th>
-                        <!-- <th>Status</th> -->
-                        <th>Actions</th>
+                        <th>ដេប៉ាទីម៉ង</th>
+                        <th>លេខកូដ.</th>
+                        <th>ព័ត៌មានបន្ថែម</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -381,27 +363,105 @@ require_once 'db.php'; // Include database connection
 
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            // $status_class = $row['status'] == 'Active' ? 'status-active' : 'status-inactive';
                             echo "<tr>
-                                    <td>".$row['course_id']."</td>
-                                    <td>".$row['course_name']."</td>
-                                    <td>".$row['course_code']."</td>
-                                    <td>".$row['description']."</td>
-                                    
+                                    <td>" . $row['course_id'] . "</td>
+                                    <td>
+                                        <div class='font-medium text-gray-900'>" . htmlspecialchars($row['course_name']) . "</div>
+                                    </td>
+                                    <td><span class='course-badge'>" . htmlspecialchars($row['course_code']) . "</span></td>
+                                    <td>" . htmlspecialchars($row['description']) . "</td>
                                     <td>
                                         <div class='action-buttons'>
-                                            <button class='btn-edit' onclick='editCourse(".$row['course_id'].")'><span style='font-size:1.1em;'>✏️</span> Edit</button>
-                                            <button class='btn-delete' onclick='deleteCourse(".$row['course_id'].")'><span style='font-size:1.1em;'>🗑️</span> Delete</button>
+                                            <button class='btn-edit' onclick='editCourse(" . $row['course_id'] . ")'>
+                                                <span style='font-size:1.1em;'>✏️</span> 
+                                            </button>
+                                            <button class='btn-delete' onclick='deleteCourse(" . $row['course_id'] . ")'>
+                                                <span style='font-size:1.1em;'>🗑️</span> 
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='6' style='text-align: center;'>No courses found</td></tr>";
+                        echo "<tr><td colspan='5' class='text-center py-4'>No courses found</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div id="addCourseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">បញ្ចូលដេប៉ាទីម៉ង</h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="addCourseForm">
+                <div class="form-group">
+                    <label for="course_name">ដេប៉ាទីម៉ង</label>
+                    <input type="text" id="course_name" name="course_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="course_code">លេខកូដ</label>
+                    <input type="text" id="course_code" name="course_code" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">ព័ត៌មានបន្ថែម</label>
+                    <textarea id="description" name="description" class="form-control" required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save mr-2"></i>រក្សាទុក
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="closeModal()">
+                        <i class="fas fa-times mr-2"></i>បោះបង់
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Course Modal -->
+    <div id="editCourseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">កែប្រែដេប៉ាទីម៉ង</h2>
+                <button class="close" onclick="closeEditModal()">&times;</button>
+            </div>
+            
+            <form id="editCourseForm">
+                <input type="hidden" id="edit_course_id" name="course_id">
+                
+                <div class="form-group">
+                    <label for="edit_course_name">ដេប៉ាទីម៉ង</label>
+                    <input type="text" id="edit_course_name" name="course_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_course_code">លេខកូដ</label>
+                    <input type="text" id="edit_course_code" name="course_code" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_description">ព័ត៌មានបន្ថែម</label>
+                    <textarea id="edit_description" name="description" class="form-control" required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save mr-2"></i>កែប្រែ
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">
+                        <i class="fas fa-times mr-2"></i>បោះបង់
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -421,6 +481,13 @@ require_once 'db.php'; // Include database connection
             addModal.style.display = "block";
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
+
+        // Prevent closing modal by clicking outside
+        addModal.addEventListener('mousedown', function(e) {
+            if (e.target === addModal) {
+                e.stopPropagation();
+            }
+        });
 
         // Open edit modal function
         function editCourse(courseId) {
@@ -449,7 +516,7 @@ require_once 'db.php'; // Include database connection
         }
 
         // Close modals functions
-        function closeAddModal() {
+        function closeModal() {
             addModal.style.display = "none";
             document.body.style.overflow = ''; // Restore scrolling
         }
@@ -460,7 +527,7 @@ require_once 'db.php'; // Include database connection
         }
 
         // Close modals when clicking (x)
-        addSpan.onclick = closeAddModal;
+        addSpan.onclick = closeModal;
         editSpan.onclick = closeEditModal;
 
         // Handle add form submission
@@ -477,7 +544,7 @@ require_once 'db.php'; // Include database connection
             .then(data => {
                 if(data.success) {
                     alert('Course added successfully!');
-                    closeAddModal();
+                    closeModal();
                     location.reload();
                 } else {
                     alert('Error adding course: ' + data.message);
@@ -503,7 +570,7 @@ require_once 'db.php'; // Include database connection
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    alert('Course updated successfully!');
+                    alert('ការកែប្រែដេប៉ាទីម៉ងបានជោគជ័យ');
                     closeEditModal();
                     location.reload();
                 } else {
@@ -512,7 +579,7 @@ require_once 'db.php'; // Include database connection
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error updating course. Please try again.');
+                alert('ការកែប្រែដេប៉ាទីម៉ងមិនបានជោគជ័យ');
             });
         });
 
@@ -540,7 +607,7 @@ require_once 'db.php'; // Include database connection
                 .then(response => response.json())
                 .then(data => {
                     if(data.success) {
-                        alert('Course deleted successfully!');
+                        alert('ការលុបដេប៉ាទីម៉ងបានជោគជ័យ');
                         location.reload();
                     } else {
                         alert('Error deleting course: ' + data.message);
@@ -548,7 +615,7 @@ require_once 'db.php'; // Include database connection
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error deleting course. Please try again.');
+                    alert('ការលុបដេប៉ាទីម៉ងមិនបានជោគជ័យ');
                 });
             }
         }
@@ -570,6 +637,69 @@ require_once 'db.php'; // Include database connection
                 rows.forEach(row => tbody.appendChild(row));
                 ascCourse = !ascCourse;
                 arrow.textContent = ascCourse ? '▲▼' : '▼▲';
+            });
+        });
+
+        // Edit course function
+        function editCourse(courseId) {
+            // Fetch course data and populate modal
+            fetch(`get_course.php?id=${courseId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        document.getElementById('edit_course_id').value = data.course.course_id;
+                        document.getElementById('edit_course_name').value = data.course.course_name;
+                        document.getElementById('edit_course_code').value = data.course.course_code;
+                        document.getElementById('edit_description').value = data.course.description;
+                        document.getElementById('editCourseModal').style.display = 'flex';
+                    } else {
+                        alert('Error loading course data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading course data. Please try again.');
+                });
+        }
+
+        // Delete course function
+        function deleteCourse(courseId) {
+            if(confirm('តើអ្នកប្រាកដជាចង់លុបដេប៉ាទីម៉ងនេះមែនទេ?')) {
+                fetch('process_course.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=delete&course_id=${courseId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        alert('ការលុបដេប៉ាទីម៉ងបានជោគជ័យ');
+                        location.reload();
+                    } else {
+                        alert('Error deleting course: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('ការលុបដេប៉ាទីម៉ងមិនបានជោគជ័យ');
+                });
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('.inventory-table tbody tr');
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if(text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
         });
     </script>

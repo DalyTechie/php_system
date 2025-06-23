@@ -415,7 +415,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2>Return Details</h2>
-                        <button class="close-btn" onclick="closeDetailsModal()">&times;</button>
+                        <button class="close-btn" onclick="hideDetailsModal()">&times;</button>
                     </div>
                     <div class="form-group">
                         <label>Student ID:</label>
@@ -438,7 +438,7 @@
                         <p>${rowData.status}</p>
                     </div>
                     <div class="modal-buttons">
-                        <button type="button" onclick="closeDetailsModal()" class="btn btn-primary">Close</button>
+                        <button type="button" onclick="hideDetailsModal()" class="btn btn-primary">Close</button>
                     </div>
                 </div>`;
 
@@ -447,7 +447,7 @@
             modal.style.display = "flex";
         }
 
-        function closeDetailsModal() {
+        function hideDetailsModal() {
             document.getElementById("viewDetailsModal").style.display = "none";
         }
 

@@ -7,6 +7,9 @@
     <title>Books Management - Library Management System</title>
     <?php include 'components/head.php'; ?>
     <style>
+        body{
+            font-family: 'Khmer OS Siemreap', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
         .main-container {
             margin-left: 16rem;
             padding: 2rem;
@@ -26,7 +29,7 @@
 
         .search-input {
             padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
+            border: 1px solid #e5e7eb;
             border-radius: 0.375rem;
             width: 300px;
         }
@@ -232,17 +235,29 @@
             color: #0a8ca0;
         }
 
+       
         .btn-primary {
-            background: none;
-            color: #3730a3;
-            border: 1.5px solid #3730a3;
+            background:  #2563eb;
+            /* color: #2563eb; */
+            border: 1.5px solid #2563eb;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
             font-weight: 500;
             transition: background 0.2s, color 0.2s;
         }
         .btn-primary:hover {
-            background-color: #4f46e5 !important;
-            color: #fff;
+            background: #3730a311;
+            color: #1e1b4b;
         }
+       
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-1px);
+        }
+     
 
         .btn-danger {
             background: none;
@@ -274,20 +289,45 @@
           
             background-color: #3730a3;
         }
+
+        .header-title-btn-bg {
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+        }
+        .font-khmer h1{
+            font-family: 'Khmer OS Muol Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
     <?php include 'components/sidebar.php'; ?>
+    <div class="ml-64">
+        <?php include 'components/dashboard_stats.php'; ?>
+    </div>
     
     <div class="main-container">
      
 
         <div class="page-header">
-            <h1> Books Management</h1>
+            <h1 class="text-2xl font-khmer header-title-btn-bg">ព័ត៌មានសៀវភៅ</h1>
             <div class="header-actions">
-                <input type="text" id="searchInput" placeholder="Search books..." class="search-input" onkeyup="searchBooks()">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="text" placeholder="Search..." class="search-input" id="searchInput" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <span style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background-color: #4f46e5; color: #fff; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                        </svg>
+                    </span>
+                </div>
                 <button class="btn btn-primary" style="  background-color:rgb(25, 80, 231); color: #fff; border: none;" onclick="openAddBookModal()">
-                    <i class="fas fa-plus mr-2"></i> Add New Book
+                    <!-- <i class="fas fa-plus mr-2"></i> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                    </svg>
+                    បញ្ចូលសៀវភៅ
                 </button>
             </div>
         </div>
@@ -464,11 +504,38 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('viewBookContent').innerHTML = `
-                        <p><strong>Book ID:</strong> ${data.book_id}</p>
-                        <p><strong>Title:</strong> ${data.title}</p>
-                        <p><strong>Author:</strong> ${data.author}</p>
-                        <p><strong>Publisher:</strong> ${data.publisher}</p>
-                        <p><strong>Category:</strong> ${data.category}</p>
+                        <div style="
+                            font-family: 'Segoe UI', 'Arial', 'sans-serif';
+                            border-radius: 10px;
+                            padding: 1.5rem 1.5rem 1rem 1.5rem;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+                            max-width: 400px;
+                            margin: 0 auto;
+                            background: #fff;
+                        ">
+                            <table style="width:100%; border-collapse:collapse; font-size:1rem; font-family: 'Segoe UI', 'Arial', 'sans-serif';">
+                                <tr>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">Book ID:</td>
+                                    <td style="padding: 0.4rem 0;">${data.book_id}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">Title:</td>
+                                    <td style="padding: 0.4rem 0;">${data.title}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">Author:</td>
+                                    <td style="padding: 0.4rem 0;">${data.author}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">Publisher:</td>
+                                    <td style="padding: 0.4rem 0;">${data.publisher}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">Category:</td>
+                                    <td style="padding: 0.4rem 0;">${data.category}</td>
+                                </tr>
+                            </table>
+                        </div>
                     `;
                     document.getElementById('viewBookModal').style.display = 'flex';
                 });

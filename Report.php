@@ -175,7 +175,7 @@ include 'components/head.php';
     .close {
         color: #aaa;
         float: right;
-        font-size: 28px;
+        font-size: 20px;
         font-weight: bold;
         cursor: pointer;
     }
@@ -224,19 +224,26 @@ include 'components/head.php';
         transform: translateY(-1px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
     }
+    .header-title-btn-bg {
+        background-color: #4f46e5;
+        color: #fff;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.375rem;
+        display: inline-block;
+    }
     </style>
 </head>
-<body>
-<?php include 'components/sidebar.php'; ?>
-<div class="ml-64">
-    <?php 
-    include 'components/dashboard_stats.php';
- //       include 'components/top_bar.php';
-    ?>
-</div>
+<body class="bg-gray-100">
+    <?php include 'components/sidebar.php'; ?>
+    <div class="ml-64">
+        <?php include 'components/dashboard_stats.php'; ?>
+    </div>
 
     <div class="main-container">
-    <h1 class="pkay">Library Reports & Statistics</h1>
+    <h1 class="text-2xl font-semibold header-title-btn-bg">Reports</h1>
+        <div class="header-actions">
+            <!-- Search input removed as requested -->
+        </div>
         <div class="dashboard-cards">
             <div class="card total-books" onclick="showBookList('all')">Total Books: <?= $totalBooks ?></div>
             <div class="card borrowed-month" onclick="showBookList('borrowed-month')">Books Borrowed This Month: <?= $booksBorrowedThisMonth ?></div>
@@ -308,16 +315,19 @@ include 'components/head.php';
         </div>
     </div> 
 
-<!-- Add the modal for displaying lists -->
-<div id="listModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle">Book List</h2>
-        <div id="modalContent">
-            <!-- Content will be loaded here -->
+    <!-- Add the modal for displaying lists -->
+    <div id="listModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Book List</h2>
+            <div id="modalContent">
+                <!-- Content will be loaded here -->
+            </div>
+            <button id="printBtn" style="background: #6b7280; color: #fff; padding: 10px 24px; border: none; border-radius: 6px; margin-top: 18px; font-size: 16px; cursor: pointer; display: block; margin-left: auto; margin-right: 24px;">
+                Print
+            </button>
         </div>
     </div>
-</div>
 
 <?php include 'components/top_bar.php'; ?>
 <script src="js/charts.js"></script>
@@ -562,6 +572,15 @@ document.addEventListener('keydown', function(event) {
         closeModal();
     }
 });
+
+document.getElementById('printBtn').onclick = function() {
+    const printContents = document.getElementById('modalContent').innerHTML;
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    location.reload(); // reload to restore event listeners
+};
 </script>
 </body>
 </html>

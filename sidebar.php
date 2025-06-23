@@ -2,7 +2,7 @@
     <div class="flex flex-col h-full">
         <!-- Dashboard Header -->
     <div class="p-6 border-b">
-            <h1 class="text-xl font-semibold text-gray-800">Library System</h1>
+            <h1 class="text-lg font-semibold text-gray-800 text-center whitespace-nowrap">Library System</h1>
         </div>
         
         <!-- Navigation Menu -->

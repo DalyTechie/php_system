@@ -34,7 +34,7 @@ if(isset($_POST["submit"])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ABC Library Management System</title>
+    <title>Library Management System</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -44,7 +44,7 @@ if(isset($_POST["submit"])){
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Khmer OS SiemReap';
             background: white;
             min-height: 100vh;
             display: flex;
@@ -604,7 +604,7 @@ if(isset($_POST["submit"])){
             }
         }
     </style>
-    
+   
 </head>
 <body>
 <div class="login-container">
@@ -624,8 +624,8 @@ if(isset($_POST["submit"])){
 
         <div class="login-form-side">
             <div class="form-header">
-                <h2>Welcome Back</h2>
-                <p>Please sign in to your account to continue</p>
+                <h2>ចូលប្រើប្រាស់គណនីរបស់អ្នក</h2>
+                <!-- <p>Please sign in to your account to continue</p> -->
             </div>
 
             <!-- Error message placeholder -->
@@ -635,7 +635,7 @@ if(isset($_POST["submit"])){
             </div>
             <form id="loginForm" method="POST" action="">
                 <div class="form-group">
-                    <label for="username">Email or Username</label>
+                    <label for="username">ឈ្មោះអ្នកប្រើប្រាស់</label>
                     <div class="input-wrapper">
                         <input type="text" class="form-control" id="username" name="username" placeholder="Enter your email or username" required>
                         <i class="fas fa-user input-icon"></i>
@@ -643,7 +643,7 @@ if(isset($_POST["submit"])){
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">ពាក្យសម្ងាត់</label>
                     <div class="input-wrapper">
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                         <i class="fas fa-lock input-icon"></i>
@@ -653,20 +653,20 @@ if(isset($_POST["submit"])){
                 <div class="options">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" id="remember_me" name="remember_me">
-                        <label for="remember_me">Remember me</label>
+                        <label for="remember_me">ចាំខ្ញុំ?</label>
                     </div>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <a href="#" class="forgot-password">ភ្លេចពាក្យសម្ងាត់</a>
                 </div>
 
                 <button type="submit" name="submit" class="btn-login">
                     <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
-                    Sign In
+                    Log In
                 </button>
             </form>
             <?php if(isset($login_error)) echo $login_error; ?>
 
             <div class="social-login">
-                <p>Or continue with</p>
+                <p>Don't have an account? <span><a href="#"> Signup</a></span></p>
                 <div class="social-buttons">
                     <div class="social-btn google">
                         <i class="fab fa-google"></i>

@@ -1,5 +1,6 @@
 <?php
 require_once 'session_check.php';
+require_once 'db.php';
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -94,9 +95,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 0;
             min-height: 100vh;
             background-color: #f3f4f6;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Khmer OS Siemreap', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
-
+        .font-khmer h1{
+            font-family: 'Khmer OS Muol Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
         /* Main container styles */
         .main-container {
             margin-left: 16rem;  /* Match sidebar width */
@@ -136,6 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: 1px solid #e5e7eb;
             border-radius: 0.375rem;
             width: 300px;
+            outline: none;
         }
 
         .btn {
@@ -180,6 +184,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .btn-danger:hover {
             background-color: #b91c1c;
+        }
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .btn-cancel {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #cbd5e0;
+        }
+        .btn-submit {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #4338ca;
         }
 
         .floating-add-btn {
@@ -814,9 +853,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .btn-primary {
-            background: none;
-            color: #3730a3;
-            border: 1.5px solid #3730a3;
+            background:  #2563eb;
+            /* color: #2563eb; */
+            border: 1.5px solid #2563eb;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
             font-weight: 500;
             transition: background 0.2s, color 0.2s;
         }
@@ -836,21 +879,186 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background: #dc354511;
             color: #a71d2a;
         }
+
+        .header-title-btn-bg {
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+        }
+        .btn-delete {
+            background:  #e74c3c;
+            color: #e74c3c;
+            border: 1.5px solid #e74c3c;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #e74c3c11;
+            color: #b91c1c;
+        }
+        .btn-info {
+            background:rgb(41, 195, 46);
+            /* color: #e74c3c; */
+            border: 1.5px solid rgb(41, 195, 46);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-info:hover {
+            /* background: #e74c3c11; */
+            color:rgb(41, 195, 46);
+        }
+
+        /* Modal overlay */
+        #viewDetailsModal.modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(30, 41, 59, 0.45);
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        #viewDetailsModal.modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* Modal content */
+        #viewDetailsModal .modal-content {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(30,41,59,0.18);
+            padding: 36px 32px;
+            max-width: 540px;
+            width: 100%;
+            position: relative;
+            animation: slideIn 0.4s;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-40px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Close button */
+        #viewDetailsModal .close-btn {
+            position: absolute;
+            top: 18px; right: 18px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        #viewDetailsModal .close-btn:hover {
+            color: #1e293b;
+        }
+
+        /* Photo styling */
+        #viewDetailsModal .photo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        #viewDetailsModal .student-details-photo {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e0e7ef;
+            box-shadow: 0 4px 16px rgba(30,41,59,0.10);
+            background: #f1f5f9;
+        }
+
+        /* Details grid */
+        #viewDetailsModal .details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 32px;
+            margin-bottom: 0;
+        }
+        @media (max-width: 600px) {
+            #viewDetailsModal .modal-content { padding: 18px 6px; }
+            #viewDetailsModal .details-container { grid-template-columns: 1fr; gap: 12px 0; }
+        }
+
+        /* Detail items */
+        #viewDetailsModal .detail-item label {
+            font-weight: 700;
+            color: #334155;
+            font-size: 1em;
+            margin-bottom: 2px;
+            display: block;
+            letter-spacing: 0.01em;
+        }
+        #viewDetailsModal .detail-item span {
+            color: #0f172a;
+            font-size: 1.08em;
+            margin-top: 2px;
+            display: block;
+            word-break: break-word;
+        }
+
+        /* Status badge */
+        #viewDetailsModal .status-badge {
+            padding: 0.3em 1.1em;
+            border-radius: 9999px;
+            font-size: 1em;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 2px;
+            letter-spacing: 0.01em;
+        }
+        #viewDetailsModal .status-borrowed {
+            background: linear-gradient(90deg, #fee2e2 60%, #fecaca 100%);
+            color: #b91c1c;
+            border: 1.5px solid #fca5a5;
+        }
+        #viewDetailsModal .status-available {
+            background: linear-gradient(90deg, #dcfce7 60%, #bbf7d0 100%);
+            color: #15803d;
+            border: 1.5px solid #86efac;
+        }
     </style>
 </head>
 <body>
     <?php include 'components/sidebar.php'; ?>
-    
+    <div class="ml-64">
+        <?php include 'components/dashboard_stats.php'; ?>
+    </div>
     <div class="main-container">
         <div class="page-header">
-            <h1 class="text-2xl font-semibold text-gray-900">Student Management</h1>
+            <h1 class="text-2xl font-khmer header-title-btn-bg">ចុះឈ្មោះនិស្សិត</h1>
             <div class="header-actions">
-                <input type="text" placeholder="Search students..." class="search-input">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="text" placeholder="Search..." class="search-input" id="searchInput" style="padding-right: 2.5rem;">
+                    <span style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background-color: #4f46e5; color: #fff; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                        </svg>
+                    </span>
+                </div>
                 <button class="btn btn-primary" style="  background-color:rgb(25, 80, 231); color: #fff; border: none;"onclick="openAddStudentModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
                     </svg>
-                    Add New Student
+                   បញ្ចូលឈ្មោះនិស្សិត
                 </button>
             </div>
         </div>
@@ -859,12 +1067,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <table class="students-table">
                 <thead>
                     <tr>
-                        <th>Photo</th>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Course</th>
-                        <th>Borrowing Status</th>
-                        <th>Actions</th>
+                        <th>រូបភាព</th>
+                        <th>លេខកូដកាត</th>
+                        <th>ឈ្មោះ</th>
+                        <th>ដេប៉ាទីម៉ង</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -901,14 +1109,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<td><span class='course-badge'>" . htmlspecialchars($row['course_name']) . "</span></td>";
                             echo "<td>" . $borrowStatus . "</td>";
                             echo "<td class='actions'>
-                                    <button onclick='viewDetails(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-info btn-sm'>
-                                        <span style='font-size:1.1em;'>👁️</span> View
+                                    <button onclick='viewDetails(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-info btn-sm'>
+                                        <span style='font-size:1.1em;'>👁️</span> 
                                     </button>
                                     <button onclick='editStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-primary btn-sm'>
-                                        <span style='font-size:1.1em;'>✏️</span> Edit
+                                        <span style='font-size:1.1em;'>✏️</span> 
                                     </button>
-                                    <button onclick='deleteStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-danger btn-sm'>
-                                        <span style='font-size:1.1em;'>🗑️</span> Delete
+                                    <button onclick='deleteStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-delete btn-sm'>
+                                        <span style='font-size:1.1em;'>🗑️</span> 
                                     </button>
                                 </td>";
                             echo "</tr>";
@@ -929,30 +1137,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="addStudentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Add New Student</h2>
+                <h2 class="modal-title">បញ្ចូលឈ្មោះនិស្សិត</h2>
                 <button class="close-btn" onclick="closeAddStudentModal()">&times;</button>
             </div>
             <form id="addStudentForm" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="studentId">Student ID</label>
+                    <label for="studentId">លេខកូដកាត</label>
                     <input type="text" id="studentId" name="studentId" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
+                    <label for="firstName">នាមត្រកូល</label>
                     <input type="text" id="firstName" name="firstName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
+                    <label for="lastName">នាមខ្លួន</label>
                     <input type="text" id="lastName" name="lastName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">អ៊ីមែល</label>
                     <input type="email" id="email" name="email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="courseId">Course</label>
+                    <label for="courseId">*ដេប៉ាទីម៉ង</label>
                     <select id="courseId" name="courseId" class="form-control" required>
-                        <option value="">Select Course</option>
+                        <!-- <option value=""></option> -->
                         <?php
                         $courseSql = "SELECT course_id, course_name FROM tblcourse ORDER BY course_name";
                         $courseResult = $conn->query($courseSql);
@@ -966,10 +1174,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="photo">Photo</label>
+                    <label for="photo">រូបភាព</label>
                     <input type="file" id="photo" name="photo" class="form-control" accept="image/*" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Add Student</button>
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save mr-2"></i>រក្សាទុក
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="closeModal()">
+                        <i class="fas fa-times mr-2"></i>បោះបង់
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -978,27 +1193,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="editStudentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Edit Student</h2>
+                <h2 class="modal-title">កែប្រែឈ្មោះនិស្សិត</h2>
                 <button class="close-btn" onclick="closeEditStudentModal()">&times;</button>
             </div>
             <form id="editStudentForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="editStudentId" name="student_id">
                 <div class="form-group">
-                    <label for="editFirstName">First Name</label>
+                    <label for="editFirstName">នាមត្រកូល</label>
                     <input type="text" id="editFirstName" name="firstName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="editLastName">Last Name</label>
+                    <label for="editLastName">នាមខ្លួន</label>
                     <input type="text" id="editLastName" name="lastName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="editEmail">Email</label>
+                    <label for="editEmail">អ៊ីមែល</label>
                     <input type="email" id="editEmail" name="email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="editCourseId">Course</label>
+                    <label for="editCourseId">*ដេប៉ាទីម៉ង</label>
                     <select id="editCourseId" name="courseId" class="form-control" required>
-                        <option value="">Select Course</option>
+                        <!-- <option value="">Select Course</option> -->
                         <?php
                         $courseSql = "SELECT course_id, course_name FROM tblcourse ORDER BY course_name";
                         $courseResult = $conn->query($courseSql);
@@ -1012,13 +1227,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="editPhoto">Photo (leave empty to keep current photo)</label>
+                    <label for="editPhoto">(ទុកទទេ​ដើម្បី​រក្សា​រូបភាព)</label>
                     <input type="file" id="editPhoto" name="photo" class="form-control" accept="image/*">
                     <div id="currentPhotoPreview" class="mt-2">
                         <img id="currentPhoto" src="" alt="Current photo" style="max-width: 100px; display: none;">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save mr-2"></i>កែប្រែ
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">
+                        <i class="fas fa-times mr-2"></i>បោះបង់
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -1029,46 +1251,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="viewDetailsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Student Details</h2>
+                <h2 style="display:flex;align-items:center;gap:8px;">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user" style="margin-right:4px;"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+                    Student Details
+                </h2>
                 <button class="close-btn" onclick="closeViewDetailsModal()">&times;</button>
             </div>
-            <div class="student-details">
                 <div class="photo-container">
                     <img id="detailsPhoto" src="" alt="Student photo" class="student-details-photo">
                 </div>
                 <div class="details-container">
                     <div class="detail-item">
-                        <label>Student ID</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash" style="vertical-align:middle;margin-right:4px;"><text x="2" y="13" font-size="12" font-family="Arial">#</text></svg> Student ID</label>
                         <span id="detailsStudentId"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Full Name</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="5" r="4"/><path d="M2.5 15a7.5 7.5 0 0 1 11 0"/></svg> Full Name</label>
                         <span id="detailsFullName"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Course</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book" style="vertical-align:middle;margin-right:4px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5z"/></svg> Course</label>
                         <span id="detailsCourse"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Email</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="4" width="12" height="8" rx="2"/><path d="M2 4l6 4 6-4"/></svg> Email</label>
                         <span id="detailsEmail"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Phone</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone" style="vertical-align:middle;margin-right:4px;"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.13 1.13.37 2.23.72 3.28a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c1.05.35 2.15.59 3.28.72A2 2 0 0 1 21 18.91V21z"/></svg> Phone</label>
                         <span id="detailsPhone"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Address</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" style="vertical-align:middle;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Address</label>
                         <span id="detailsAddress"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Registered Date</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="13" height="13" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Registered Date</label>
                         <span id="detailsCreatedAt"></span>
                     </div>
                     <div class="detail-item">
-                        <label>Borrowing Status</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="8" r="7"/><polyline points="5 8 7 10 11 6"/></svg> Borrowing Status</label>
                         <span id="detailsBorrowStatus"></span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1159,23 +1382,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     return response.json();
                 })
                 .then(data => {
-                    if (!data) {
-                        throw new Error('No data received from server');
-                    }
+                    if (!data) throw new Error('No data received from server');
                     
-                    // Populate the modal with student details
-                    document.getElementById('detailsPhoto').src = data.photo;
+                    // Photo with fallback
+                    const detailsPhoto = document.getElementById('detailsPhoto');
+                    detailsPhoto.src = (data.photo && data.photo.trim() !== '') ? data.photo : 'images/default-avatar.png';
+
                     document.getElementById('detailsStudentId').textContent = data.student_id;
                     document.getElementById('detailsFullName').textContent = `${data.firstname} ${data.lastname}`;
                     document.getElementById('detailsCourse').textContent = data.course_name;
                     document.getElementById('detailsEmail').textContent = data.email || 'Not provided';
                     document.getElementById('detailsPhone').textContent = data.phone || 'Not provided';
                     document.getElementById('detailsAddress').textContent = data.address || 'Not provided';
-                    document.getElementById('detailsCreatedAt').textContent = new Date(data.created_at).toLocaleDateString();
-                    document.getElementById('detailsBorrowStatus').textContent = 
-                        data.active_borrows > 0 ? 
-                        `Currently Borrowing (${data.active_borrows} items)` : 
-                        'No Active Borrows';
+
+                    // Format date
+                    const date = new Date(data.created_at);
+                    document.getElementById('detailsCreatedAt').textContent = date.toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+
+                    // Borrowing status badge
+                    const borrowStatus = document.getElementById('detailsBorrowStatus');
+                    if (data.active_borrows > 0) {
+                        borrowStatus.textContent = `Currently Borrowing (${data.active_borrows} items)`;
+                        borrowStatus.className = 'status-badge status-borrowed';
+                    } else {
+                        borrowStatus.textContent = 'No Active Borrows';
+                        borrowStatus.className = 'status-badge status-available';
+                    }
                     
                     // Show the modal
                     document.getElementById('viewDetailsModal').classList.add('active');
@@ -1212,10 +1446,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             })
             .then(data => {
                 if (data.success) {
-                    alert('Student updated successfully');
+                    alert('ការកែប្រែបានជោគជ័យ');
                     window.location.reload();
                 } else {
-                    throw new Error(data.message || 'Failed to update student');
+                    throw new Error(data.message || 'ការកែប្រែមិនបានជោគជ័យ');
                 }
             })
             .catch(error => {
@@ -1225,7 +1459,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         function deleteStudent(studentId) {
-            if (!confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
+            if (!confirm('តើអ្នកប្រាកដជាចង់លុបឈ្មោះនិស្សិតនេះមែនទេ?')) {
                 return;
             }
 
@@ -1246,10 +1480,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             })
             .then(data => {
                 if (data.success) {
-                    alert('Student deleted successfully');
+                    alert('ការលុបបានជោគជ័យ');
                     window.location.reload();
                 } else {
-                    throw new Error(data.message || 'Failed to delete student');
+                    throw new Error(data.message || 'ការលុបមិនបានជោគជ័យ');
                 }
             })
             .catch(error => {

@@ -151,8 +151,8 @@ include 'components/head.php';
                 <th id="sortBorrowId" style="cursor:pointer;">Borrow ID ▲▼</th>
                 <th data-sort="student_name">Student Name</th>
                 <th data-sort="book_title">Book Title</th>
-                <th data-sort="borrow_date">Borrow Date</th>
-                <th data-sort="return_date">Return Date</th>
+                <th data-sort="borrow_date">Borrow-Date</th>
+                <th data-sort="return_date">Return-Date</th>
                 <th data-sort="status">Status</th>
             </tr>
         </thead>

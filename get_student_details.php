@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once 'session_check.php';
-require_once 'config/config.php';
+require_once 'db.php';
 
 header('Content-Type: application/json');
 
@@ -21,23 +21,17 @@ $student_id = $_GET['student_id'];
 error_log("Processing request for student_id: " . $student_id);
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Query to get student details including course name and active borrows count
-    $query = "SELECT s.*, c.course_name,
-              (SELECT COUNT(*) FROM tblborrower b 
-               WHERE b.student_id = s.student_id 
-               AND b.status = 'borrowed') as active_borrows
-              FROM tblstudent s
-              LEFT JOIN tblcourse c ON s.course_id = c.course_id
-              WHERE s.student_id = :student_id";
-
-    $stmt = $conn->prepare($query);
-    $stmt->bindParam(':student_id', $student_id);
+    $sql = "SELECT s.*, c.course_name,
+               (SELECT COUNT(*) FROM tblborrower b 
+                WHERE b.student_id = s.student_id AND b.return_date IS NULL) as active_borrows
+            FROM tblstudent s
+            LEFT JOIN tblcourse c ON s.course_id = c.course_id
+            WHERE s.student_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $student_id);
     $stmt->execute();
-
-    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->get_result();
+    $student = $result->fetch_assoc();
 
     if (!$student) {
         error_log("No student found with ID: " . $student_id);
@@ -47,8 +41,8 @@ try {
     }
 
     // Ensure photo path is complete
-    if ($student['photo'] && !str_starts_with($student['photo'], 'http')) {
-        $student['photo'] = 'uploads/' . $student['photo'];
+    if ($student['photo'] && !preg_match('/^(https?:\\/\\/|uploads\\/)/', $student['photo'])) {
+        $student['photo'] = 'uploads/students/' . $student['photo'];
     }
 
     // Format dates
