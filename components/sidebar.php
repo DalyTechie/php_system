@@ -9,7 +9,7 @@
         
         <!-- Navigation Menu -->
         <nav class="flex-1 p-4">
-            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Main</p>
+            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">មុខងារសំខាន់</p>
             
             <!-- Dashboard Link -->
             <a href="index.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2">
@@ -17,7 +17,7 @@
                 ទំព័រដើម
             </a>
 
-            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mt-6 mb-4">Management</p>
+            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mt-6 mb-4">ការគ្រប់គ្រង</p>
                          <!-- Inventory Link -->
             <a href="Inventory.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg transition-colors duration-150">
                 <span style="font-size:1.3rem; margin-right:0.75rem;">📚</span>
@@ -47,12 +47,12 @@
                 ព័ត៌មានការសងសៀវភៅ
             </a>
 <!-- Divider for System Menu -->
-<p class="text-xs font-medium text-gray-400 uppercase tracking-wider mt-6 mb-4">System</p>
+<p class="text-xs font-medium text-gray-400 uppercase tracking-wider mt-6 mb-4">ប្រព័ន្ធ</p>
 
 <!-- Profile Link -->
 <a href="profile.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2 transition-colors duration-150">
     <span style="font-size:1.3rem; margin-right:0.75rem;">👤</span>
-    Profile
+    ប្រវត្តិរូប
 </a>
 
 
@@ -60,12 +60,12 @@
 <!-- Settings Link -->
 <a href="setting.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600 rounded-lg mb-2 transition-colors duration-150">
     <span style="font-size:1.3rem; margin-right:0.75rem;">⚙️</span>
-    Settings
+    ការកំណត់
 </a>
 
 <a href="logout.php" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-red-600 rounded-lg mb-2 transition-colors duration-150">
     <span style="font-size:1.3rem; margin-right:0.75rem;">🚪</span>
-    Logout
+    ចេញពីគណនី
 </a>
 
 

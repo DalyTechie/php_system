@@ -129,22 +129,22 @@
     ?>
     
     <form method="post" class="search-form">
-        <input type="text" name="txtsearch" class="search-box-input" placeholder="Search by Book Title, Author, or ISBN..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
-        <input type="submit" value="Search" name="btnsearch" class="search-btn">
-        <button type="button" class="reset-btn" id="resetBtn">Reset</button>
+        <input type="text" name="txtsearch" class="search-box-input" placeholder="ស្វែងរកតាមចំណងជើងសៀវភៅ អ្នកនិពន្ធ ឬ ISBN..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
+        <input type="submit" value="ស្វែងរក" name="btnsearch" class="search-btn">
+        <button type="button" class="reset-btn" id="resetBtn">កំណត់ឡើងវិញ</button>
     </form>
     
     <table class="library-table" id="libraryTable">
         <thead>
             <tr>
-                <th id="sortBookId" style="cursor:pointer;">Book ID ▲▼</th>
-                <th data-sort="title">Title</th>
-                <th data-sort="author">Author</th>
-                <th data-sort="isbn">ISBN</th>
-                <th data-sort="category">Category</th>
-                <th data-sort="publisher">Publisher</th>
-                <th data-sort="publication_year">Year</th>
-                <th data-sort="status">Status</th>
+                <th id="sortBookId" style="cursor:pointer;">លេខសម្គាល់សៀវភៅ ▲▼</th>
+                <th data-sort="title">ចំណងជើង</th>
+                <th data-sort="author">អ្នកនិពន្ធ</th>
+                <th data-sort="isbn">លេខសៀវភៅ (ISBN)</th>
+                <th data-sort="category">ប្រភេទ</th>
+                <th data-sort="publisher">អ្នកបោះពុម្ពផ្សាយ</th>
+                <th data-sort="publication_year">ឆ្នាំ</th>
+                <th data-sort="status">ស្ថានភាព</th>
             </tr>
         </thead>
         <tbody>
@@ -152,7 +152,7 @@
         // Helper function to safely handle null values and show "Null" for empty fields
         function safe_html($value) {
             if ($value === null || $value === '') {
-                return '<span style="color: #dc2626; font-style: italic;">Null</span>';
+                return '<span style="color: #dc2626; font-style: italic;">ទទេ</span>';
             }
             return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         }
@@ -175,7 +175,7 @@
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 // Determine status based on whether book is borrowed
-                $status = 'Available';
+                $status = 'មានស្រាប់';
                 $statusClass = 'status-available';
                 
                 // Check if book is currently borrowed
@@ -188,7 +188,7 @@
                 $borrowed_row = $borrowed_result->fetch_assoc();
                 
                 if ($borrowed_row['borrowed_count'] > 0) {
-                    $status = 'Borrowed';
+                    $status = 'បានខ្ចី';
                     $statusClass = 'status-borrowed';
                 }
                 

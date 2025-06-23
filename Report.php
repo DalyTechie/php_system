@@ -240,23 +240,23 @@ include 'components/head.php';
     </div>
 
     <div class="main-container">
-    <h1 class="text-2xl font-semibold header-title-btn-bg">Reports</h1>
+    <h1 class="text-2xl font-semibold header-title-btn-bg">របាយការណ៍</h1>
         <div class="header-actions">
             <!-- Search input removed as requested -->
         </div>
         <div class="dashboard-cards">
-            <div class="card total-books" onclick="showBookList('all')">Total Books: <?= $totalBooks ?></div>
-            <div class="card borrowed-month" onclick="showBookList('borrowed-month')">Books Borrowed This Month: <?= $booksBorrowedThisMonth ?></div>
-            <div class="card currently-borrowed" onclick="showBookList('currently-borrowed')">Currently Borrowed: <?= $currentlyBorrowed ?></div>
-            <div class="card overdue-books" onclick="showBookList('overdue')">Overdue Books: <?= $overdueBooks ?></div>
+            <div class="card total-books" onclick="showBookList('all')">សៀវភៅសរុប: <?= $totalBooks ?></div>
+            <div class="card borrowed-month" onclick="showBookList('borrowed-month')">សៀវភៅបានខ្ចីខែនេះ: <?= $booksBorrowedThisMonth ?></div>
+            <div class="card currently-borrowed" onclick="showBookList('currently-borrowed')">សៀវភៅកំពុងខ្ចី: <?= $currentlyBorrowed ?></div>
+            <div class="card overdue-books" onclick="showBookList('overdue')">សៀវភៅហួសកំណត់: <?= $overdueBooks ?></div>
         </div>
         <div class="table-section">
-            <h2>Most Borrowed Books</h2>
+            <h2>សៀវភៅដែលត្រូវបានខ្ចីច្រើនបំផុត</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Times Borrowed</th>
+                        <th>ចំណងជើង</th>
+                        <th>ចំនួនដងដែលបានខ្ចី</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -281,14 +281,14 @@ include 'components/head.php';
             </table>
         </div>
         <div class="table-section">
-            <h2>Overdue Books</h2>
+            <h2>សៀវភៅហួសកំណត់</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Student</th>
-                        <th>Due Date</th>
-                        <th>Days Overdue</th>
+                        <th>សៀវភៅ</th>
+                        <th>សិស្ស</th>
+                        <th>ថ្ងៃត្រូវសង</th>
+                        <th>ចំនួនថ្ងៃហួសកំណត់</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -319,12 +319,12 @@ include 'components/head.php';
     <div id="listModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle">Book List</h2>
+            <h2 id="modalTitle">សៀវភៅទាំងអស់ក្នុងបណ្ណាល័យ</h2>
             <div id="modalContent">
                 <!-- Content will be loaded here -->
             </div>
             <button id="printBtn" style="background: #6b7280; color: #fff; padding: 10px 24px; border: none; border-radius: 6px; margin-top: 18px; font-size: 16px; cursor: pointer; display: block; margin-left: auto; margin-right: 24px;">
-                Print
+                បោះពុម្ព
             </button>
         </div>
     </div>
@@ -340,21 +340,21 @@ function showBookList(type) {
     // Set title based on type
     switch(type) {
         case 'all':
-            modalTitle.textContent = 'All Books in Library';
+            modalTitle.textContent = 'សៀវភៅទាំងអស់ក្នុងបណ្ណាល័យ';
             break;
         case 'borrowed-month':
-            modalTitle.textContent = 'Books Borrowed This Month';
+            modalTitle.textContent = 'សៀវភៅបានខ្ចីខែនេះ';
             break;
         case 'currently-borrowed':
-            modalTitle.textContent = 'Currently Borrowed Books';
+            modalTitle.textContent = 'សៀវភៅកំពុងខ្ចី';
             break;
         case 'overdue':
-            modalTitle.textContent = 'Overdue Books';
+            modalTitle.textContent = 'សៀវភៅហួសកំណត់';
             break;
     }
     
     // Show loading
-    modalContent.innerHTML = '<p>Loading...</p>';
+    modalContent.innerHTML = '<p>កំពុងផ្ទុក...</p>';
     modal.style.display = 'block';
     
     // Fetch data using AJAX
@@ -369,21 +369,21 @@ function showBookList(type) {
             if (data.success) {
                 modalContent.innerHTML = createTableHTML(data.data, type, data.count);
             } else {
-                modalContent.innerHTML = '<p>Error loading data: ' + (data.message || 'Unknown error') + '</p>';
+                modalContent.innerHTML = '<p>បញ្ហាក្នុងការផ្ទុកទិន្នន័យ: ' + (data.message || 'មិនស្គាល់កំហុស') + '</p>';
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            modalContent.innerHTML = '<p>Error loading data: ' + error.message + '</p>';
+            modalContent.innerHTML = '<p>បញ្ហាក្នុងការផ្ទុកទិន្នន័យ: ' + error.message + '</p>';
         });
 }
 
 function createTableHTML(data, type, count) {
     if (!data || data.length === 0) {
-        return '<p>No data available.</p>';
+        return '<p>គ្មានទិន្នន័យ</p>';
     }
     
-    let tableHTML = `<div style="margin-bottom: 15px; font-weight: bold; color: #374151;">Total Count: ${count}</div>`;
+    let tableHTML = `<div style="margin-bottom: 15px; font-weight: bold; color: #374151;">ចំនួនសរុប៖ ${count}</div>`;
     tableHTML += '<table class="list-table">';
     
     // Create headers based on type
@@ -393,15 +393,15 @@ function createTableHTML(data, type, count) {
                 <thead>
                     <tr>
                         <th style="cursor: pointer; user-select: none;" onclick="sortTable('book_id')">
-                            Book ID 
+                            លេខសម្គាល់សៀវភៅ
                             <span id="book_id_sort" style="margin-left: 5px;">▲▼</span>
                         </th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>ISBN</th>
-                        <th>Category</th>
-                        <th>Year</th>
-                        <th>Publisher</th>
+                        <th>ចំណងជើង</th>
+                        <th>អ្នកនិពន្ធ</th>
+                        <th>លេខសៀវភៅ (ISBN)</th>
+                        <th>ប្រភេទ</th>
+                        <th>ឆ្នាំ</th>
+                        <th>អ្នកបោះពុម្ពផ្សាយ</th>
                     </tr>
                 </thead>
             `;
@@ -413,14 +413,14 @@ function createTableHTML(data, type, count) {
                 <thead>
                     <tr>
                         <th style="cursor: pointer; user-select: none;" onclick="sortTable('borrow_id')">
-                            Borrow ID 
+                            លេខសម្គាល់ការខ្ចី
                             <span id="borrow_id_sort" style="margin-left: 5px;">▲▼</span>
                         </th>
-                        <th>Student Name</th>
-                        <th>Book Title</th>
-                        <th>Borrow Date</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
+                        <th>ឈ្មោះសិស្ស</th>
+                        <th>ចំណងជើងសៀវភៅ</th>
+                        <th>ថ្ងៃខ្ចី</th>
+                        <th>ថ្ងៃត្រូវសង</th>
+                        <th>ស្ថានភាព</th>
                     </tr>
                 </thead>
             `;
@@ -432,7 +432,7 @@ function createTableHTML(data, type, count) {
     // Helper function to format N/A values with colored badges
     function formatValue(value) {
         if (!value || value === 'N/A') {
-            return '<span style="background-color: #9ca3af; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px;">N/A</span>';
+            return '<span style="background-color: #9ca3af; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px;">គ្មាន</span>';
         }
         return value;
     }
@@ -535,22 +535,22 @@ document.addEventListener('DOMContentLoaded', function() {
 function createStatusBadge(status) {
     switch(status.toLowerCase()) {
         case 'overdue':
-            return '<span style="background: #fee2e2; color: #dc2626; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);">OVERDUE</span>';
+            return '<span style="background: #fee2e2; color: #dc2626; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);">ហួសកំណត់</span>';
             
         case 'borrowed':
-            return '<span style="background: #dbeafe; color: #1d4ed8; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(29, 78, 216, 0.1);">BORROWED</span>';
+            return '<span style="background: #dbeafe; color: #1d4ed8; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(29, 78, 216, 0.1);">បានខ្ចី</span>';
             
         case 'returned':
-            return '<span style="background: #dcfce7; color: #16a34a; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);">RETURNED</span>';
+            return '<span style="background: #dcfce7; color: #16a34a; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);">បានសង</span>';
             
         case 'lost':
-            return '<span style="background: #fef9c3; color: #b45309; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(180, 83, 9, 0.1);">LOST</span>';
+            return '<span style="background: #fef9c3; color: #b45309; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(180, 83, 9, 0.1);">បាត់</span>';
             
         case 'pending':
-            return '<span style="background: #f3e8ff; color: #7c3aed; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(124, 58, 237, 0.1);">PENDING</span>';
+            return '<span style="background: #f3e8ff; color: #7c3aed; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(124, 58, 237, 0.1);">កំពុងរង់ចាំ</span>';
             
         default:
-            return `<span style="background: #f3f4f6; color:rgb(133, 45, 45); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase;">${status || 'N/A'}</span>`;
+            return `<span style="background: #f3f4f6; color:rgb(133, 45, 45); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-transform: uppercase;">${status || 'គ្មាន'}</span>`;
     }
 }
 
@@ -573,14 +573,7 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-document.getElementById('printBtn').onclick = function() {
-    const printContents = document.getElementById('modalContent').innerHTML;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    location.reload(); // reload to restore event listeners
-};
+document.getElementById('printBtn').textContent = 'បោះពុម្ព';
 </script>
 </body>
 </html>

@@ -240,11 +240,11 @@
   
 
         <div class="page-header">
-            <h1>Return Books</h1>
+            <h1>សៀវភៅដែលត្រូវសង</h1>
             <div class="header-actions">
-                <input type="text" id="searchInput" placeholder="Search books..." class="search-input" onkeyup="searchBooks()">
+                <input type="text" id="searchInput" placeholder="ស្វែងរកសៀវភៅ..." class="search-input" onkeyup="searchBooks()">
                 <button type="button" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Add Return
+                    <i class="fas fa-plus"></i> បញ្ចូលការសងសៀវភៅ
                 </button>
             </div>
         </div>
@@ -265,16 +265,12 @@
                 <thead>
                     <tr>
                         <th id="sortStudentId" style="cursor:pointer;">
-                            Student ID <span id="studentIdArrow">▲▼</span>
+                            លេខសម្គាល់សិស្ស <span id="studentIdArrow">▲▼</span>
                         </th>
-                        <!-- <th>BookID</th> -->
-                        <th>Student Name</th>
-                        <th>Title</th>
-                        <!-- <th>Course</th> -->
-                        <!-- <th>Borrow Date</th> -->
-                        <th>Return Date</th>
-                        <!-- <th>Status</th> -->
-                        <th>Actions</th>
+                        <th>ឈ្មោះសិស្ស</th>
+                        <th>ចំណងជើងសៀវភៅ</th>
+                        <th>ថ្ងៃសង</th>
+                        <th>សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody id="booksTableBody">
@@ -285,9 +281,9 @@
                     $result = $conn->query($sql);
                     
                     if (!$result) {
-                        echo "<tr><td colspan='7' class='text-center'>Error executing query: " . $conn->error . "</td></tr>";
+                        echo "<tr><td colspan='7' class='text-center'>កំហុសក្នុងការបង្ហាញទិន្នន័យ: " . $conn->error . "</td></tr>";
                     } else if ($result->num_rows === 0) {
-                        echo "<tr><td colspan='7' class='text-center'>No books found in the database</td></tr>";
+                        echo "<tr><td colspan='7' class='text-center'>រកមិនឃើញសៀវភៅក្នុងមូលដ្ឋានទិន្នន័យ</td></tr>";
                     } else {
                         while($row = $result->fetch_assoc()) {
                             $statusClass = $row['status'] === 'Available' ? 'status-available' : 'status-borrowed';
@@ -295,20 +291,18 @@
                             echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['title']) . "</td>";
-                            // echo "<td>" . htmlspecialchars($row['course_name']) . "</td>";
-                            // echo "<td>" . htmlspecialchars($row['borrow_date']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['return_date']) . "</td>";
                             echo "<td class='actions'>
                                     <button class='btn btn-sm btn-view' onclick='viewDetails(" . json_encode($row) . ")'>
-                                        👁️ View
+                                        👁️ មើល
                                     </button>
-                                    <button class='btn btn-sm btn-edit' onclick='openEditReturnModal(" . $row['borrow_id'] . ", \"" . $row['return_date'] . "\")'>
-                                        ✏️ Edit
+                                    <button class='btn btn-sm btn-edit' onclick='openEditReturnModal(" . $row['borrow_id'] . ", \'" . $row['return_date'] . "\')'>
+                                        ✏️ កែប្រែ
                                     </button>
-                                    <form method='POST' action='delete_return.php' style='display:inline;' onsubmit='return confirm(\"Are you sure you want to delete this return record?\");'>
+                                    <form method='POST' action='delete_return.php' style='display:inline;' onsubmit=\"return confirm('តើអ្នកប្រាកដថាចង់លុបកំណត់ត្រានេះមែនទេ?');\">
                                         <input type='hidden' name='borrow_id' value='" . $row['borrow_id'] . "'>
                                         <button type='submit' class='btn btn-sm btn-delete'>
-                                            🗑️ Delete
+                                            🗑️ លុប
                                         </button>
                                     </form>
                                 </td>";
@@ -328,14 +322,14 @@
     <div id="addReturnModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add Return</h2>
+                <h2>បន្ថែមការសងសៀវភៅ</h2>
                 <button class="close-btn" onclick="closeAddReturnModal()">&times;</button>
             </div>
             <form id="addReturnForm" method="POST" action="add_return.php">
                 <div class="form-group">
-                    <label for="student_id">Student</label>
+                    <label for="student_id">សិស្ស</label>
                     <select id="student_id" name="student_id" class="form-control" required>
-                        <option value="">Select a student</option>
+                        <option value="">ជ្រើសរើសសិស្ស</option>
                         <?php foreach ($students as $student): ?>
                             <option value="<?= htmlspecialchars($student['student_id']) ?>">
                             <?= htmlspecialchars($student['firstname'] . ' ' . $student['lastname']) ?>
@@ -344,9 +338,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="book_id">Book</label>
+                    <label for="book_id">សៀវភៅ</label>
                     <select id="book_id" name="book_id" class="form-control" required>
-                        <option value="">Select a book</option>
+                        <option value="">ជ្រើសរើសសៀវភៅ</option>
                         <?php foreach ($books as $book): ?>
                             <option value="<?= htmlspecialchars($book['book_id']) ?>">
                    <?= htmlspecialchars($book['title']) ?>
@@ -355,12 +349,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="return_date">Return Date</label>
+                    <label for="return_date">ថ្ងៃសង</label>
                     <input type="date" id="return_date" name="return_date" class="form-control" required>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" onclick="closeAddReturnModal()" class="btn btn-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Return</button>
+                    <button type="button" onclick="closeAddReturnModal()" class="btn btn-secondary">បោះបង់</button>
+                    <button type="submit" class="btn btn-primary">បន្ថែមការសង</button>
                 </div>
             </form>
         </div>
@@ -370,18 +364,18 @@
     <div id="editReturnModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Edit Return</h2>
+                <h2>កែប្រែការសងសៀវភៅ</h2>
                 <button class="close-btn" onclick="closeEditReturnModal()">&times;</button>
             </div>
             <form id="editReturnForm" method="POST" action="edit_return.php">
                 <input type="hidden" id="edit_borrow_id" name="borrow_id">
                 <div class="form-group">
-                    <label for="edit_return_date">Return Date</label>
+                    <label for="edit_return_date">ថ្ងៃសង</label>
                     <input type="date" id="edit_return_date" name="return_date" class="form-control" required>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" onclick="closeEditReturnModal()" class="btn btn-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update Return</button>
+                    <button type="button" onclick="closeEditReturnModal()" class="btn btn-secondary">បោះបង់</button>
+                    <button type="submit" class="btn btn-primary">កែប្រែការសង</button>
                 </div>
             </form>
         </div>
@@ -414,31 +408,31 @@
             const detailsHtml = `
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Return Details</h2>
+                        <h2>ព័ត៌មានលម្អិតអំពីការសងសៀវភៅ</h2>
                         <button class="close-btn" onclick="hideDetailsModal()">&times;</button>
                     </div>
                     <div class="form-group">
-                        <label>Student ID:</label>
+                        <label>លេខសម្គាល់សិស្ស:</label>
                         <p>${rowData.student_id}</p>
                     </div>
                     <div class="form-group">
-                        <label>Student Name:</label>
+                        <label>ឈ្មោះសិស្ស:</label>
                         <p>${rowData.first_name} ${rowData.last_name}</p>
                     </div>
                     <div class="form-group">
-                        <label>Book Title:</label>
+                        <label>ចំណងជើងសៀវភៅ:</label>
                         <p>${rowData.title}</p>
                     </div>
                     <div class="form-group">
-                        <label>Return Date:</label>
+                        <label>ថ្ងៃសង:</label>
                         <p>${rowData.return_date}</p>
                     </div>
                     <div class="form-group">
-                        <label>Status:</label>
+                        <label>ស្ថានភាព:</label>
                         <p>${rowData.status}</p>
                     </div>
                     <div class="modal-buttons">
-                        <button type="button" onclick="hideDetailsModal()" class="btn btn-primary">Close</button>
+                        <button type="button" onclick="hideDetailsModal()" class="btn btn-primary">បិទ</button>
                     </div>
                 </div>`;
 

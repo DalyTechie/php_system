@@ -135,25 +135,25 @@ include 'components/head.php';
     <!-- Search Form -->
     <form method="post" class="search-form" style="align-items: center;">
         <!-- Borrow Date range filter -->
-        <label for="start_borrow" style="margin-left: 1rem; font-weight: 500;">Borrow Date To :</label>
+        <label for="start_borrow" style="margin-left: 1rem; font-weight: 500;">ថ្ងៃខ្ចីចាប់ពី :</label>
         <input type="date" id="start_borrow" name="start_borrow" class="search-box-input" style="width: 150px;" value="<?php echo htmlspecialchars($start_borrow); ?>">
         <!-- Return Date range filter -->
-        <label for="end_return" style="margin-left: 0.5rem; font-weight: 500;">Return Date To:</label>
+        <label for="end_return" style="margin-left: 0.5rem; font-weight: 500;">ថ្ងៃសងដល់ :</label>
         <input type="date" id="end_return" name="end_return" class="search-box-input" style="width: 150px;" value="<?php echo htmlspecialchars($end_return); ?>">
 
-        <input type="submit" value="Search" name="btnsearch" class="search-btn">
-        <button type="button" class="reset-btn" id="resetBtn">Reset</button>
+        <input type="submit" value="ស្វែងរក" name="btnsearch" class="search-btn">
+        <button type="button" class="reset-btn" id="resetBtn">កំណត់ឡើងវិញ</button>
     </form>
     
     <table class="borrow-table" id="borrowTable">
         <thead>
             <tr>
-                <th id="sortBorrowId" style="cursor:pointer;">Borrow ID ▲▼</th>
-                <th data-sort="student_name">Student Name</th>
-                <th data-sort="book_title">Book Title</th>
-                <th data-sort="borrow_date">Borrow-Date</th>
-                <th data-sort="return_date">Return-Date</th>
-                <th data-sort="status">Status</th>
+                <th id="sortBorrowId" style="cursor:pointer;">លេខសម្គាល់ការខ្ចី ▲▼</th>
+                <th data-sort="student_name">ឈ្មោះសិស្ស</th>
+                <th data-sort="book_title">ចំណងជើងសៀវភៅ</th>
+                <th data-sort="borrow_date">ថ្ងៃខ្ចី</th>
+                <th data-sort="return_date">ថ្ងៃសង</th>
+                <th data-sort="status">ស្ថានភាព</th>
             </tr>
         </thead>
         <tbody>
@@ -210,18 +210,23 @@ include 'components/head.php';
             while($row = $result->fetch_assoc()) {
                 // Determine status class based on status value
                 $statusClass = '';
+                $statusText = '';
                 switch(strtolower($row['status'])) {
                     case 'borrowed':
                         $statusClass = 'status-borrowed';
+                        $statusText = 'បានខ្ចី';
                         break;
                     case 'returned':
                         $statusClass = 'status-returned';
+                        $statusText = 'បានសង';
                         break;
                     case 'overdue':
                         $statusClass = 'status-overdue';
+                        $statusText = 'ហួសកំណត់';
                         break;
                     default:
-                        $statusClass = 'status-borrowed'; // default fallback
+                        $statusClass = 'status-borrowed';
+                        $statusText = $row['status'];
                 }
                 
                 echo "<tr>
@@ -230,11 +235,11 @@ include 'components/head.php';
                         <td>".htmlspecialchars($row['title'])."</td>
                         <td>".htmlspecialchars(!empty($row['borrow_date']) ? date('m/d/Y', strtotime($row['borrow_date'])) : '')."</td>
                         <td>".htmlspecialchars(!empty($row['return_date']) ? date('m/d/Y', strtotime($row['return_date'])) : '')."</td>
-                        <td><span class='status-badge {$statusClass}'>".htmlspecialchars($row['status'])."</span></td>
+                        <td><span class='status-badge {$statusClass}'>".htmlspecialchars($statusText)."</span></td>
                     </tr>";
             }
         } else {
-            echo "<tr><td colspan='6' style='text-align:center;'>No borrow records found.</td></tr>";
+            echo "<tr><td colspan='6' style='text-align:center;'>រកមិនឃើញកំណត់ត្រាការខ្ចីទេ។</td></tr>";
         }
         ?>
         </tbody>
@@ -267,7 +272,7 @@ include 'components/head.php';
         document.querySelectorAll('#borrowTable th').forEach((th, idx) => {
             if (th.dataset.sort === "borrow_id") {
                 th.style.cursor = 'pointer';
-                th.title = "Sort by Borrow ID";
+                th.title = "តម្រៀបតាមលេខសម្គាល់ការខ្ចី";
                 th.addEventListener('click', function() {
                     const table = th.closest('table');
                     Array.from(table.querySelectorAll('tbody tr'))
@@ -292,7 +297,7 @@ include 'components/head.php';
             rows.forEach(row => tbody.appendChild(row));
             asc = !asc;
             // Optionally, update the arrow
-            this.innerHTML = 'Borrow ID ' + (asc ? '▲▼' : '▼▲');
+            this.innerHTML = 'លេខសម្គាល់ការខ្ចី ' + (asc ? '▲▼' : '▼▲');
         });
     });
     document.getElementById('resetBtn').onclick = function() {

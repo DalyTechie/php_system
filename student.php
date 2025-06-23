@@ -840,84 +840,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        .btn-info {
-            background: none;
-            color: #0dcaf0;
-            border: 1.5px solid #0dcaf0;
+        .btn-info, .btn-primary, .btn-delete {
+            background: transparent !important;
+            border-width: 1.5px;
+            border-style: solid;
+            border-radius: 0.375rem;
             font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            font-size: 0.95em;
+            padding: 0.375rem 0.9rem;
+            transition: border-color 0.2s, color 0.2s;
+            cursor: pointer;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3em;
+        }
+        .btn-info {
+            color: #0dcaf0;
+            border-color: #0dcaf0;
         }
         .btn-info:hover {
-            background: #0dcaf011;
             color: #0a8ca0;
+            border-color: #0a8ca0;
+            background: transparent !important;
         }
-
         .btn-primary {
-            background:  #2563eb;
-            /* color: #2563eb; */
-            border: 1.5px solid #2563eb;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            color: #2563eb;
+            border-color: #2563eb;
         }
         .btn-primary:hover {
-            background: #3730a311;
-            color: #1e1b4b;
-        }
-
-        .btn-danger {
-            background: none;
-            color: #dc3545;
-            border: 1.5px solid #dc3545;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-        }
-        .btn-danger:hover {
-            background: #dc354511;
-            color: #a71d2a;
-        }
-
-        .header-title-btn-bg {
-            background-color: #4f46e5;
-            color: #fff;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.375rem;
-            display: inline-block;
+            color: #174ea6;
+            border-color: #174ea6;
+            background: transparent !important;
         }
         .btn-delete {
-            background:  #e74c3c;
             color: #e74c3c;
-            border: 1.5px solid #e74c3c;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            border-color: #e74c3c;
         }
-
         .btn-delete:hover {
-            background: #e74c3c11;
             color: #b91c1c;
-        }
-        .btn-info {
-            background:rgb(41, 195, 46);
-            /* color: #e74c3c; */
-            border: 1.5px solid rgb(41, 195, 46);
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .btn-info:hover {
-            /* background: #e74c3c11; */
-            color:rgb(41, 195, 46);
+            border-color: #b91c1c;
+            background: transparent !important;
         }
 
         /* Modal overlay */
@@ -1092,8 +1055,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         while($row = $result->fetch_assoc()) {
                             // Determine borrowing status
                             $borrowStatus = $row['active_borrows'] > 0 ? 
-                                          '<span class="status-badge status-borrowed">Currently Borrowing (' . $row['active_borrows'] . ')</span>' : 
-                                          '<span class="status-badge status-available">No Active Borrows</span>';
+                                          '<span class="status-badge status-borrowed">កំពុងខ្ចី (' . $row['active_borrows'] . ')</span>' : 
+                                          '<span class="status-badge status-available">មិនមានការខ្ចី</span>';
 
                             echo "<tr>";
                             echo "<td><img src='" . htmlspecialchars($row['photo']) . "' alt='Student photo' class='student-photo'></td>";
@@ -1110,13 +1073,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<td>" . $borrowStatus . "</td>";
                             echo "<td class='actions'>
                                     <button onclick='viewDetails(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-info btn-sm'>
-                                        <span style='font-size:1.1em;'>👁️</span> 
+                                        <span style='font-size:1.1em;'>មើល 👁️</span> 
                                     </button>
                                     <button onclick='editStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-primary btn-sm'>
-                                        <span style='font-size:1.1em;'>✏️</span> 
+                                        <span style='font-size:1.1em;'>កែប្រែ ✏️</span> 
                                     </button>
                                     <button onclick='deleteStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-delete btn-sm'>
-                                        <span style='font-size:1.1em;'>🗑️</span> 
+                                        <span style='font-size:1.1em;'>លុប 🗑️</span> 
                                     </button>
                                 </td>";
                             echo "</tr>";
@@ -1253,7 +1216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="modal-header">
                 <h2 style="display:flex;align-items:center;gap:8px;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user" style="margin-right:4px;"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
-                    Student Details
+                    ព័ត៌មានលម្អិតនិស្សិត
                 </h2>
                 <button class="close-btn" onclick="closeViewDetailsModal()">&times;</button>
             </div>
@@ -1262,35 +1225,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="details-container">
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash" style="vertical-align:middle;margin-right:4px;"><text x="2" y="13" font-size="12" font-family="Arial">#</text></svg> Student ID</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash" style="vertical-align:middle;margin-right:4px;"><text x="2" y="13" font-size="12" font-family="Arial">#</text></svg> លេខសម្គាល់និស្សិត</label>
                         <span id="detailsStudentId"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="5" r="4"/><path d="M2.5 15a7.5 7.5 0 0 1 11 0"/></svg> Full Name</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="5" r="4"/><path d="M2.5 15a7.5 7.5 0 0 1 11 0"/></svg> ឈ្មោះពេញ</label>
                         <span id="detailsFullName"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book" style="vertical-align:middle;margin-right:4px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5z"/></svg> Course</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book" style="vertical-align:middle;margin-right:4px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5z"/></svg> ដេប៉ាទីម៉ង</label>
                         <span id="detailsCourse"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="4" width="12" height="8" rx="2"/><path d="M2 4l6 4 6-4"/></svg> Email</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="4" width="12" height="8" rx="2"/><path d="M2 4l6 4 6-4"/></svg> អ៊ីមែល</label>
                         <span id="detailsEmail"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone" style="vertical-align:middle;margin-right:4px;"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.13 1.13.37 2.23.72 3.28a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c1.05.35 2.15.59 3.28.72A2 2 0 0 1 21 18.91V21z"/></svg> Phone</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone" style="vertical-align:middle;margin-right:4px;"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.13 1.13.37 2.23.72 3.28a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c1.05.35 2.15.59 3.28.72A2 2 0 0 1 21 18.91V21z"/></svg> លេខទូរស័ព្ទ</label>
                         <span id="detailsPhone"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" style="vertical-align:middle;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Address</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" style="vertical-align:middle;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> អាសយដ្ឋាន</label>
                         <span id="detailsAddress"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="13" height="13" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Registered Date</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="13" height="13" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> កាលបរិច្ឆេទចុះឈ្មោះ</label>
                         <span id="detailsCreatedAt"></span>
                     </div>
                     <div class="detail-item">
-                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="8" r="7"/><polyline points="5 8 7 10 11 6"/></svg> Borrowing Status</label>
+                    <label><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="8" r="7"/><polyline points="5 8 7 10 11 6"/></svg> ស្ថានភាពខ្ចី</label>
                         <span id="detailsBorrowStatus"></span>
                 </div>
             </div>
@@ -1404,10 +1367,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Borrowing status badge
                     const borrowStatus = document.getElementById('detailsBorrowStatus');
                     if (data.active_borrows > 0) {
-                        borrowStatus.textContent = `Currently Borrowing (${data.active_borrows} items)`;
+                        borrowStatus.textContent = `កំពុងខ្ចី (${data.active_borrows} កំណត់ត្រា)`;
                         borrowStatus.className = 'status-badge status-borrowed';
                     } else {
-                        borrowStatus.textContent = 'No Active Borrows';
+                        borrowStatus.textContent = 'មិនមានការខ្ចី';
                         borrowStatus.className = 'status-badge status-available';
                     }
                     

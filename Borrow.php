@@ -301,11 +301,11 @@ require_once 'session_check.php';
 <body>
     <div class="main-container">
         <div class="page-header">
-            <h1>Borrow Books</h1>
+            <h1>បញ្ជីខ្ចីសៀវភៅ</h1>
             <div class="header-actions">
-                <input type="text" id="searchInput" placeholder="Search books..." class="search-input" onkeyup="searchBooks()">
+                <input type="text" id="searchInput" placeholder="ស្វែងរកសៀវភៅ..." class="search-input" onkeyup="searchBooks()">
                 <button type="button" class="btn btn-primary" onclick="openNewBorrowModal()">
-                    <i class="fas fa-plus"></i> Add New Borrow
+                    <i class="fas fa-plus"></i>បញ្ចូលការខ្ចីសៀវភៅថ្មី
                 </button>
             </div>
         </div>
@@ -315,15 +315,15 @@ require_once 'session_check.php';
                 <thead>
                     <tr>
                         <th id="sortBorrowId" style="cursor:pointer;">
-                            BorrowID <span id="borrowIdArrow">▲▼</span>
+                            លេខសម្គាល់ការខ្ចី <span id="borrowIdArrow">▲▼</span>
                         </th>
-                        <th>Student_Name</th>
-                        <th>Title</th>
-                        <th>Course</th>
-                        <th>Borrow_Date</th>
-                        <th>Return_Date</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>ឈ្មោះសិស្ស</th>
+                        <th>ចំណងជើងសៀវភៅ</th>
+                        <th>មុខវិជ្ជា</th>
+                        <th>ថ្ងៃខ្ចី</th>
+                        <th>ថ្ងៃត្រូវសង</th>
+                        <th>ស្ថានភាព</th>
+                        <th>សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody id="borrowTableBody">
@@ -372,12 +372,12 @@ require_once 'session_check.php';
                             echo "<td>" . $borrow_date . "</td>";
                             echo "<td>" . $return_date . "</td>";
                             echo "<td><span class='status-" . strtolower($row['status']) . "'>" . 
-                                 ucfirst(htmlspecialchars($row['status'])) . "</span></td>";
+                                ($row['status'] === 'borrowed' ? 'បានខ្ចី' : ($row['status'] === 'returned' ? 'បានសង' : ($row['status'] === 'overdue' ? 'ហួសកំណត់' : htmlspecialchars(ucfirst($row['status']))))) . "</span></td>";
                             echo "<td class='actions'>";
                             echo "<button class='action-btn edit' onclick='openEditModal(" . htmlspecialchars($row['borrow_id']) . ")'>";
-                            echo "<span style='font-size:1.1em;'>✏️</span> Edit</button>";
+                            echo "<span style='font-size:1.1em;'>✏️</span> កែប្រែ</button>";
                             echo "<button class='action-btn delete' onclick='deleteBorrow(" . htmlspecialchars($row['borrow_id']) . ")'>";
-                            echo "<span style='font-size:1.1em;'>🗑️</span> Delete</button>";
+                            echo "<span style='font-size:1.1em;'>🗑️</span> លុប</button>";
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -392,14 +392,14 @@ require_once 'session_check.php';
     <div id="newBorrowModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add New Borrow</h2>
+                <h2>បញ្ចូលការខ្ចីសៀវភៅថ្មី</h2>
                 <button type="button" class="close-btn" onclick="closeNewBorrowModal()">&times;</button>
             </div>
             <form id="newBorrowForm" method="POST" action="process_borrow.php">
                 <div class="form-group">
-                    <label for="new_student_id">Student</label>
+                    <label for="new_student_id">សិស្ស</label>
                     <select id="new_student_id" name="student_id" class="form-control" required>
-                        <option value="">Select Student</option>
+                        <option value="">ជ្រើសរើសសិស្ស</option>
                         <?php
                         $student_sql = "SELECT student_id, CONCAT(firstname, ' ', lastname) as full_name 
                                       FROM tblstudent 
@@ -421,9 +421,9 @@ require_once 'session_check.php';
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="new_book_id">Book</label>
+                    <label for="new_book_id">សៀវភៅ</label>
                     <select id="new_book_id" name="book_id" class="form-control" required>
-                        <option value="">Select Book</option>
+                        <option value="">ជ្រើសរើសសៀវភៅ</option>
                         <?php
                         $book_sql = "SELECT * FROM tblbooks b 
                                    WHERE b.book_id NOT IN (
@@ -450,9 +450,9 @@ require_once 'session_check.php';
 
 
                 <div class="form-group">
-                    <label for="new_course_id">Course</label>
+                    <label for="new_course_id">មុខវិជ្ជា</label>
                     <select id="new_course_id" name="course_id" class="form-control" required>
-                        <option value="">Select Course</option>
+                        <option value="">ជ្រើសរើសមុខវិជ្ជា</option>
                         <?php
                         $course_sql = "SELECT course_id, course_name FROM tblcourse ORDER BY course_name";
                         $course_result = $conn->query($course_sql);
@@ -471,16 +471,16 @@ require_once 'session_check.php';
                 </div>
 
                 <div class="form-group">
-                    <label for="new_borrow_date">Borrow Date</label>
+                    <label for="new_borrow_date">ថ្ងៃខ្ចី</label>
                     <input type="date" id="new_borrow_date" name="borrow_date" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="new_return_date">Return Date</label>
+                    <label for="new_return_date">ថ្ងៃត្រូវសង</label>
                     <input type="date" id="new_return_date" name="return_date" class="form-control" required>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" class="btn btn-secondary" onclick="closeNewBorrowModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Borrow</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeNewBorrowModal()">បោះបង់</button>
+                    <button type="submit" class="btn btn-primary">រក្សាទុក</button>
                 </div>
             </form>
         </div>
@@ -490,16 +490,16 @@ require_once 'session_check.php';
     <div id="editBorrowModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Edit Borrow</h2>
+                <h2>កែប្រែការខ្ចីសៀវភៅ</h2>
                 <button type="button" class="close-btn" onclick="closeEditModal()">&times;</button>
             </div>
             <form id="editBorrowForm">
                 <input type="hidden" name="borrow_id" id="edit_borrow_id">
                 
                 <div class="mb-3">
-                    <label for="edit_student_id" class="form-label">Student</label>
+                    <label for="edit_student_id" class="form-label">សិស្ស</label>
                     <select name="student_id" id="edit_student_id" class="form-control" required>
-                        <option value="">Select Student</option>
+                        <option value="">ជ្រើសរើសសិស្ស</option>
                         <?php
                         $students_sql = "SELECT * FROM tblstudent ORDER BY lastname, firstname";
                         $students_result = $conn->query($students_sql);
@@ -514,9 +514,9 @@ require_once 'session_check.php';
                 </div>
                 
                 <div class="mb-3">
-                    <label for="edit_book_id" class="form-label">Book</label>
+                    <label for="edit_book_id" class="form-label">សៀវភៅ</label>
                     <select name="book_id" id="edit_book_id" class="form-control" required>
-                        <option value="">Select Book</option>
+                        <option value="">ជ្រើសរើសសៀវភៅ</option>
                         <?php
                         $books_sql = "SELECT * FROM tblbooks ORDER BY title";
                         $books_result = $conn->query($books_sql);
@@ -532,9 +532,9 @@ require_once 'session_check.php';
 
                  
  <div class="mb-3">
-     <label for="edit_course_id" class="form-label">Course</label>
+     <label for="edit_course_id" class="form-label">មុខវិជ្ជា</label>
      <select name="course_id" id="edit_course_id" class="form-control" required>
-         <option value="">Select Course</option>
+         <option value="">ជ្រើសរើសមុខវិជ្ជា</option>
          <?php
          $courses_sql = "SELECT * FROM tblcourse ORDER BY course_name";
          $courses_result = $conn->query($courses_sql);
@@ -549,21 +549,21 @@ require_once 'session_check.php';
  </div>
                 
                 <div class="mb-3">
-                    <label for="edit_borrow_date" class="form-label">Borrow Date</label>
+                    <label for="edit_borrow_date" class="form-label">ថ្ងៃខ្ចី</label>
                     <input type="date" name="borrow_date" id="edit_borrow_date" class="form-control" required>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="edit_return_date" class="form-label">Return Date</label>
+                    <label for="edit_return_date" class="form-label">ថ្ងៃត្រូវសង</label>
                     <input type="date" name="return_date" id="edit_return_date" class="form-control" required>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="edit_status" class="form-label">Status</label>
+                    <label for="edit_status" class="form-label">ស្ថានភាព</label>
                     <select name="status" id="edit_status" class="form-control" required>
-                        <option value="borrowed">Borrowed</option>
-                        <option value="returned">Returned</option>
-                        <option value="overdue">Overdue</option>
+                        <option value="borrowed">បានខ្ចី</option>
+                        <option value="returned">បានសង</option>
+                        <option value="overdue">ហួសកំណត់</option>
                     </select>
                 </div>
                
@@ -571,8 +571,8 @@ require_once 'session_check.php';
                
                 
                 <div class="modal-buttons">
-                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update Borrow</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">បោះបង់</button>
+                    <button type="submit" class="btn btn-primary">កែប្រែ</button>
                 </div>
             </form>
         </div>
@@ -695,7 +695,7 @@ require_once 'session_check.php';
 
         // Function to delete borrow record
         function deleteBorrow(borrowId) {
-            if (confirm('Are you sure you want to delete this borrow record?')) {
+            if (confirm('តើអ្នកប្រាកដថាចង់លុបកំណត់ត្រានេះមែនទេ?')) {
                 const formData = new FormData();
                 formData.append('borrow_id', borrowId);
 
@@ -713,15 +713,15 @@ require_once 'session_check.php';
                         throw new Error('Server returned non-JSON: ' + text);
                     }
                     if (data.success) {
-                        alert('Borrow record deleted successfully');
+                        alert('លុបកំណត់ត្រាបានជោគជ័យ');
                         window.location.reload();
                     } else {
-                        alert('Error: ' + data.message);
+                        alert('កំហុស: ' + data.message);
                     }
                 })
                 .catch(error => {
                     console.error('Delete error:', error);
-                    alert('Error deleting borrow record: ' + error.message);
+                    alert('កំហុសក្នុងការលុបកំណត់ត្រា: ' + error.message);
                 });
             }
         }
@@ -752,7 +752,7 @@ require_once 'session_check.php';
                     const returnDate = new Date(formData.get('return_date'));
                     
                     if (returnDate < borrowDate) {
-                        alert('Return date cannot be earlier than borrow date');
+                        alert('ថ្ងៃត្រូវសងមិនអាចតិចជាងថ្ងៃខ្ចីបានទេ');
                         return;
                     }
                     
@@ -809,17 +809,17 @@ require_once 'session_check.php';
                             }
                             
                             // Show success message
-                            alert('Book borrowed successfully!');
+                            alert('ខ្ចីសៀវភៅបានជោគជ័យ!');
                             
                             // Close modal and reset form
                             closeNewBorrowModal();
                         } else {
-                            alert('Error: ' + data.message);
+                            alert('កំហុស: ' + data.message);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Error borrowing book. Please try again.');
+                        alert('កំហុសក្នុងការខ្ចីសៀវភៅ។ សូមព្យាយាមម្តងទៀត។');
                     })
                     .finally(() => {
                         // Reset button state
@@ -842,16 +842,16 @@ require_once 'session_check.php';
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert('Borrow record updated successfully');
+                            alert('កែប្រែកំណត់ត្រាបានជោគជ័យ');
                             closeEditModal();
                             window.location.reload();
                         } else {
-                            alert('Error: ' + data.message);
+                            alert('កំហុស: ' + data.message);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Error updating borrow record');
+                        alert('កំហុសក្នុងការកែប្រែកំណត់ត្រា');
                     });
                 });
             }
@@ -893,7 +893,7 @@ require_once 'session_check.php';
 
             trs.forEach(tr => {
                 const text = tr.textContent.toLowerCase();
-                tr.style.zdisplay = text.includes(filter) ? '' : 'none';
+                tr.style.display = text.includes(filter) ? '' : 'none';
             });
         }
 

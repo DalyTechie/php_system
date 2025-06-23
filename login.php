@@ -631,13 +631,13 @@ if(isset($_POST["submit"])){
             <!-- Error message placeholder -->
             <div class="error-message" style="display: none;">
                 <i class="fas fa-exclamation-circle"></i>
-                Invalid username or password!
+                ឈ្មោះអ្នកប្រើប្រាស់ ឬ ពាក្យសម្ងាត់មិនត្រឹមត្រូវ!
             </div>
             <form id="loginForm" method="POST" action="">
                 <div class="form-group">
                     <label for="username">ឈ្មោះអ្នកប្រើប្រាស់</label>
                     <div class="input-wrapper">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter your email or username" required>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="បញ្ចូលអ៊ីមែល ឬ ឈ្មោះអ្នកប្រើប្រាស់" required>
                         <i class="fas fa-user input-icon"></i>
                     </div>
                 </div>
@@ -645,7 +645,7 @@ if(isset($_POST["submit"])){
                 <div class="form-group">
                     <label for="password">ពាក្យសម្ងាត់</label>
                     <div class="input-wrapper">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="បញ្ចូលពាក្យសម្ងាត់" required>
                         <i class="fas fa-lock input-icon"></i>
                     </div>
                 </div>
@@ -660,13 +660,13 @@ if(isset($_POST["submit"])){
 
                 <button type="submit" name="submit" class="btn-login">
                     <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
-                    Log In
+                    ចូលគណនី
                 </button>
             </form>
             <?php if(isset($login_error)) echo $login_error; ?>
 
             <div class="social-login">
-                <p>Don't have an account? <span><a href="#"> Signup</a></span></p>
+                <p>មិនទាន់មានគណនី? <span><a href="#"> ចុះឈ្មោះ</a></span></p>
                 <div class="social-buttons">
                     <div class="social-btn google">
                         <i class="fab fa-google"></i>

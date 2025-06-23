@@ -7,7 +7,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
             </div>
-            <h2>Library Catalog</h2>
+            <h2>បញ្ជីសៀវភៅ</h2>
         </div>
     </a>
 
@@ -19,7 +19,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
             </div>
-            <h2>Borrowers List</h2>
+            <h2>បញ្ជីអ្នកខ្ចីសៀវភៅ</h2>
         </div>
     </a>
 
@@ -31,7 +31,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
             </div>
-            <h2>Generate Reports</h2>
+            <h2>បង្កើតរបាយការណ៍</h2>
         </div>
     </a>
 
@@ -43,7 +43,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                 </svg>
             </div>
-            <h2>System Updates</h2>
+            <h2>បច្ចុប្បន្នភាពប្រព័ន្ធ</h2>
         </div>
     </a>
 </div>
@@ -53,44 +53,44 @@
     <!-- Navigation Links -->
     <div class="flex space-x-4 mb-6 border-b">
         <a href="#circulation" onclick="return showSection('circulation')" class="nav-link active px-4 py-2 text-sm font-medium text-gray-600">
-            Book Circulation
+            សៀវភៅកំពុងបង្វិល
         </a>
         <a href="#members" onclick="return showSection('members')" class="nav-link px-4 py-2 text-sm font-medium text-gray-600">
-            Member Statistics
+            ស្ថិតិសមាជិក
         </a>
         <a href="#categories" onclick="return showSection('categories')" class="nav-link px-4 py-2 text-sm font-medium text-gray-600">
-            Book Categories
+            ប្រភេទសៀវភៅ
         </a>
         <a href="#overdue" onclick="return showSection('overdue')" class="nav-link px-4 py-2 text-sm font-medium text-gray-600">
-            Overdue Books
+            សៀវភៅហួសកំណត់
         </a>
     </div>
 
     <!-- Chart Sections -->
     <div class="charts-container">
         <section id="circulation" class="chart-section active">
-            <h3 class="text-lg font-medium text-gray-800 mb-4">Book Circulation Trend</h3>
+            <h3 class="text-lg font-medium text-gray-800 mb-4">និន្នាការសៀវភៅកំពុងបង្វិល</h3>
             <div class="h-[400px]">
                 <canvas id="circulationTrendChart"></canvas>
             </div>
         </section>
 
         <section id="members" class="chart-section hidden">
-            <h3 class="text-lg font-medium text-gray-800 mb-4">Member Statistics</h3>
+            <h3 class="text-lg font-medium text-gray-800 mb-4">ស្ថិតិសមាជិក</h3>
             <div class="h-[400px]">
                 <canvas id="memberStatsChart"></canvas>
             </div>
         </section>
 
         <section id="categories" class="chart-section hidden">
-            <h3 class="text-lg font-medium text-gray-800 mb-4">Book Categories Distribution</h3>
+            <h3 class="text-lg font-medium text-gray-800 mb-4">ចំណាត់ថ្នាក់ប្រភេទសៀវភៅ</h3>
             <div class="h-[400px]">
                 <canvas id="bookCategoriesChart"></canvas>
             </div>
         </section>
 
         <section id="overdue" class="chart-section hidden">
-            <h3 class="text-lg font-medium text-gray-800 mb-4">Overdue Books Analysis</h3>
+            <h3 class="text-lg font-medium text-gray-800 mb-4">វិភាគសៀវភៅហួសកំណត់</h3>
             <div class="h-[400px]">
                 <canvas id="overdueBooksChart"></canvas>
             </div>
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [{
-                    label: 'Books Borrowed',
+                    label: 'សៀវភៅបានខ្ចី',
                     data: [150, 180, 200, 220, 190, 250],
                     borderColor: '#34D399',
                     backgroundColor: 'rgba(52, 211, 153, 0.1)',
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Books'
+                            text: 'ចំនួនសៀវភៅ'
                         }
                     }
                 }
@@ -407,9 +407,9 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'bar',
             data: {
-                labels: ['Active Members', 'New Members', 'Inactive Members'],
+                labels: ['សមាជិកសកម្ម', 'សមាជិកថ្មី', 'សមាជិកអសកម្ម'],
                 datasets: [{
-                    label: 'Member Count',
+                    label: 'ចំនួនសមាជិក',
                     data: [450, 120, 80],
                     backgroundColor: [
                         'rgba(96, 165, 250, 0.8)',
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Members'
+                            text: 'ចំនួនសមាជិក'
                         }
                     }
                 }
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'doughnut',
             data: {
-                labels: ['Fiction', 'Non-Fiction', 'Reference', 'Periodicals', 'Children'],
+                labels: ['ប្រលោមលោក', 'អក្សរសិល្ប៍មិនប្រលោមលោក', 'សៀវភៅយោង', 'សៀវភៅប្រចាំខែ', 'សៀវភៅកុមារ'],
                 datasets: [{
                     data: [35, 25, 15, 10, 15],
                     backgroundColor: [
@@ -468,9 +468,9 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             type: 'bar',
             data: {
-                labels: ['1-7 days', '8-14 days', '15-30 days', '>30 days'],
+                labels: ['១-៧ ថ្ងៃ', '៨-១៤ ថ្ងៃ', '១៥-៣០ ថ្ងៃ', '>៣០ ថ្ងៃ'],
                 datasets: [{
-                    label: 'Number of Overdue Books',
+                    label: 'ចំនួនសៀវភៅហួសកំណត់',
                     data: [25, 15, 10, 5],
                     backgroundColor: 'rgba(248, 113, 113, 0.8)'
                 }]
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Books'
+                            text: 'ចំនួនសៀវភៅ'
                         }
                     }
                 }

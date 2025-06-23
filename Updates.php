@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library System Updates</title>
+    <title>បច្ចុប្បន្នភាពប្រព័ន្ធបណ្ណាល័យ</title>
     <?php
 // Include session check
 require_once 'session_check.php';
@@ -73,24 +73,24 @@ include 'components/head.php';
      ?>
  </div>
     <div class="updates-container">
-        <div class="updates-title">Library System Updates</div>
+        <div class="updates-title">បច្ចុប្បន្នភាពប្រព័ន្ធបណ្ណាល័យ</div>
         
         <div class="update-card">
-            <div class="update-title">📚 New Books Added!</div>
-            <div class="update-message">We have added 50+ new titles to our collection, including the latest bestsellers and academic resources.</div>
-            <div class="update-date">June 10, 2024</div>
+            <div class="update-title">📚 សៀវភៅថ្មីត្រូវបានបន្ថែម!</div>
+            <div class="update-message">យើងបានបន្ថែមចំណងជើងសៀវភៅថ្មីច្រើនជាង ៥០ ក្នុងបណ្ណសារ រួមទាំងសៀវភៅលក់ដាច់ និងធនធានសិក្សាថ្មីៗ។</div>
+            <div class="update-date">១០ មិថុនា ២០២៤</div>
         </div>
         
         <div class="update-card">
-            <div class="update-title">🛠️ System Maintenance</div>
-            <div class="update-message">The library system will be under maintenance on June 15th from 1:00 AM to 3:00 AM. Please plan your activities accordingly.</div>
-            <div class="update-date">June 8, 2024</div>
+            <div class="update-title">🛠️ ការថែទាំប្រព័ន្ធ</div>
+            <div class="update-message">ប្រព័ន្ធបណ្ណាល័យនឹងធ្វើការថែទាំនៅថ្ងៃទី ១៥ មិថុនា ចាប់ពីម៉ោង ១:០០ ព្រឹក ដល់ ៣:០០ ព្រឹក។ សូមរៀបចំការងាររបស់អ្នកអោយត្រូវ។</div>
+            <div class="update-date">៨ មិថុនា ២០២៤</div>
         </div>
         
         <div class="update-card">
-            <div class="update-title">📢 Summer Reading Program</div>
-            <div class="update-message">Join our summer reading challenge and win exciting prizes! Registration is open at the front desk.</div>
-            <div class="update-date">June 1, 2024</div>
+            <div class="update-title">📢 កម្មវិធីអានសៀវភៅរដូវក្តៅ</div>
+            <div class="update-message">ចូលរួមប្រកួតប្រជែងអានសៀវភៅរដូវក្តៅរបស់យើង ហើយឈ្នះរង្វាន់ដ៏គួរឱ្យរំភើប! ការចុះឈ្មោះបើកចំហនៅតុសេវាកម្ម។</div>
+            <div class="update-date">១ មិថុនា ២០២៤</div>
         </div>
         
         <!-- Add more static updates as needed -->

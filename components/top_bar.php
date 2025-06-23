@@ -1,4 +1,3 @@
-<!-- Footer Styles -->
 <style>
     /* Footer Styles */
     .footer {
@@ -43,6 +42,7 @@
         position: relative;
         padding-bottom: 0.8rem;
         text-align: center;
+        font-family: 'Khmer OS Siemreap', sans-serif; /* Added Khmer font */
     }
 
     .footer-section h5::after {
@@ -61,6 +61,7 @@
     .footer-links a,
     .footer-contact li {
         color: #5c5470; /* Muted purple-gray */
+        font-family: 'Khmer OS Siemreap', sans-serif; /* Added Khmer font */
     }
 
     .footer-links a {
@@ -83,6 +84,7 @@
         margin-top: 2rem;
         color: #6a4caf;
         font-weight: 500;
+        font-family: 'Khmer OS Siemreap', sans-serif; /* Added Khmer font */
     }
 
     .footer-links {
@@ -124,14 +126,12 @@
     }
 </style>
 
-<!-- Footer -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-content">
-            <!-- Library Information -->
             <div class="footer-section">
-                <h5>Library System</h5>
-                <p>Your cozy corner for knowledge and learning! 📚✨ We provide access to a wonderful collection of books and resources to spark your imagination.</p>
+                <h5>ប្រព័ន្ធបណ្ណាល័យ</h5>
+                <p>កន្លែងដ៏កក់ក្ដៅរបស់អ្នកសម្រាប់ចំណេះដឹង និងការរៀនសូត្រ! 📚✨ យើងផ្តល់ជូននូវបណ្តុំសៀវភៅ និងធនធានដ៏អស្ចារ្យដើម្បីជំរុញការស្រមើលស្រមៃរបស់អ្នក។</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -139,42 +139,37 @@
                     <a href="#"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
-            
-            <!-- Quick Links -->
+
             <div class="footer-section">
-                <h5>Quick Links</h5>
+                <h5>តំណភ្ជាប់រហ័ស</h5>
                 <ul class="footer-links">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Book Catalog</a></li>
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Contact</a></li>
-                    <li><a href="">Services</a></li>
-                    <li><a href="">Events</a></li>
+                    <li><a href="">ទំព័រដើម</a></li>
+                    <li><a href="">កាតាឡុកសៀវភៅ</a></li>
+                    <li><a href="">អំពីពួកយើង</a></li>
+                    <li><a href="">ទំនាក់ទំនង</a></li>
+                    <li><a href="">សេវាកម្ម</a></li>
+                    <li><a href="">ព្រឹត្តិការណ៍</a></li>
                 </ul>
             </div>
-            
-            <!-- Contact Information -->
+
             <div class="footer-section">
-                <h5>Contact Us</h5>
+                <h5>ទំនាក់ទំនងយើង</h5>
                 <ul class="footer-contact">
                     <li><i class="fas fa-phone"></i> (123) 456-7890</li>
                     <li><i class="fas fa-envelope"></i> library@example.com</li>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Library Street, City</li>
-                    <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</li>
+                    <li><i class="fas fa-map-marker-alt"></i> ១២៣ ផ្លូវបណ្ណាល័យ, ទីក្រុង</li>
+                    <li><i class="fas fa-clock"></i> ច័ន្ទ-សុក្រ: ៩:០០ ព្រឹក - ៦:០០ ល្ងាច</li>
                 </ul>
             </div>
         </div>
-        
-        <!-- Copyright -->
+
         <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Library System. All rights reserved. 💕</p>
+            <p>&copy; <?php echo date('Y'); ?> ប្រព័ន្ធបណ្ណាល័យ។ រក្សាសិទ្ធិគ្រប់យ៉ាង។ 💕</p>
         </div>
     </div>
 </footer>
 
-<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<!-- Font Awesome -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

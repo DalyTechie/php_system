@@ -223,52 +223,40 @@
             font-size: 0.875rem;
         }
 
-        .btn-info {
-            background: none;
-            color: #0dcaf0;
-            border: 1.5px solid #0dcaf0;
+        .btn-info, .btn-primary, .btn-danger {
+            background: transparent !important;
+            border-width: 1.5px;
+            border-style: solid;
+            border-radius: 0.375rem;
             font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-info {
+            color: #0dcaf0;
+            border-color: #0dcaf0;
         }
         .btn-info:hover {
-            background: #0dcaf011;
             color: #0a8ca0;
+            border-color: #0a8ca0;
+            background: transparent !important;
         }
-
-       
         .btn-primary {
-            background:  #2563eb;
-            /* color: #2563eb; */
-            border: 1.5px solid #2563eb;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            color: #2563eb;
+            border-color: #2563eb;
         }
         .btn-primary:hover {
-            background: #3730a311;
-            color: #1e1b4b;
+            color: #174ea6;
+            border-color: #174ea6;
+            background: transparent !important;
         }
-       
-
-        .btn-primary:hover {
-            background-color: #4338ca;
-            transform: translateY(-1px);
-        }
-     
-
         .btn-danger {
-            background: none;
-            color: #dc3545;
-            border: 1.5px solid #dc3545;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            color: #e74c3c;
+            border-color: #e74c3c;
         }
         .btn-danger:hover {
-            background: #dc354511;
-            color: #a71d2a;
+            color: #b91c1c;
+            border-color: #b91c1c;
+            background: transparent !important;
         }
 
         .btn-add {
@@ -315,7 +303,7 @@
             <h1 class="text-2xl font-khmer header-title-btn-bg">ព័ត៌មានសៀវភៅ</h1>
             <div class="header-actions">
                 <div style="position: relative; display: flex; align-items: center;">
-                    <input type="text" placeholder="Search..." class="search-input" id="searchInput" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <input type="text" placeholder="ស្វែងរក..." class="search-input" id="searchInput" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <span style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background-color: #4f46e5; color: #fff; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
@@ -323,7 +311,6 @@
                     </span>
                 </div>
                 <button class="btn btn-primary" style="  background-color:rgb(25, 80, 231); color: #fff; border: none;" onclick="openAddBookModal()">
-                    <!-- <i class="fas fa-plus mr-2"></i> -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
                     </svg>
@@ -337,14 +324,13 @@
                 <thead>
                     <tr>
                         <th id="sortBookId" style="cursor:pointer;">
-                            Book ID <span id="bookIdArrow">▲▼</span>
+                            លេខសៀវភៅ <span id="bookIdArrow">▲▼</span>
                         </th>
-                        <th>Title</th>
-                        <!-- <th>ISBN</th> -->
-                        <th>Author</th>
-                        <th>Publisher</th>
-                        <th>Category</th>
-                        <th>Actions</th>
+                        <th>ចំណងជើង</th>
+                        <th>អ្នកនិពន្ធ</th>
+                        <th>អ្នកបោះពុម្ពផ្សាយ</th>
+                        <th>ប្រភេទ</th>
+                        <th>សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody id="booksTableBody">
@@ -384,13 +370,13 @@
                             echo "<td>" . htmlspecialchars($row['category']) . "</td>";
                             echo "<td class='actions'>
                                     <button onclick='openViewModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-info btn-sm'>
-                                        <span style='font-size:1.1em;'>👁️</span> View
+                                        <span style='font-size:1.1em;'>👁️</span> មើល
                                     </button>
                                     <button onclick='openEditModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-primary btn-sm'>
-                                        <span style='font-size:1.1em;'>✏️</span> Edit
+                                        <span style='font-size:1.1em;'>✏️</span> កែប្រែ
                                     </button>
                                     <button onclick='openDeleteModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-danger btn-sm'>
-                                        <span style='font-size:1.1em;'>🗑️</span> Delete
+                                        <span style='font-size:1.1em;'>🗑️</span> លុប
                                     </button>
                                   </td>";
                             echo "</tr>";
@@ -407,7 +393,7 @@
     <div id="viewBookModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Book Details</h2>
+                <h2>ព័ត៌មានសៀវភៅ</h2>
                 <button class="close-btn" onclick="closeViewModal()">&times;</button>
             </div>
             <div id="viewBookContent">
@@ -420,30 +406,30 @@
     <div id="editBookModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Edit Book</h2>
+                <h2>កែប្រែព័ត៌មានសៀវភៅ</h2>
                 <button class="close-btn" onclick="closeEditModal()">&times;</button>
             </div>
             <form id="editBookForm" method="POST" action="Book/editbook.php">
                 <input type="hidden" id="edit_book_id" name="book_id">
                 <div class="form-group">
-                    <label for="edit_title">Title</label>
+                    <label for="edit_title">ចំណងជើង</label>
                     <input type="text" id="edit_title" name="title" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit_author">Author</label>
+                    <label for="edit_author">អ្នកនិពន្ធ</label>
                     <input type="text" id="edit_author" name="author" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit_publisher">Publisher</label>
+                    <label for="edit_publisher">អ្នកបោះពុម្ពផ្សាយ</label>
                     <input type="text" id="edit_publisher" name="publisher" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit_category">Category</label>
+                    <label for="edit_category">ប្រភេទ</label>
                     <input type="text" id="edit_category" name="category" class="form-control" required>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" onclick="closeEditModal()" class="btn btn-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" onclick="closeEditModal()" class="btn btn-secondary">បោះបង់</button>
+                    <button type="submit" class="btn btn-primary">រក្សាទុក</button>
                 </div>
             </form>
         </div>
@@ -453,13 +439,13 @@
     <div id="deleteBookModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Delete Book</h2>
+                <h2>លុបសៀវភៅ</h2>
                 <button class="close-btn" onclick="closeDeleteModal()">&times;</button>
             </div>
-            <p>Are you sure you want to delete this book?</p>
+            <p>តើអ្នកប្រាកដថាចង់លុបសៀវភៅនេះមែនទេ?</p>
             <div class="modal-buttons">
-                <button onclick="closeDeleteModal()" class="btn btn-secondary">Cancel</button>
-                <button onclick="window.location.href='Book/deletebook.php?book_id=' + bookToDelete" class="btn btn-danger">Delete</button>
+                <button onclick="closeDeleteModal()" class="btn btn-secondary">បោះបង់</button>
+                <button onclick="window.location.href='Book/deletebook.php?book_id=' + bookToDelete" class="btn btn-danger">លុប</button>
             </div>
         </div>
     </div>
@@ -468,29 +454,29 @@
     <div id="addBookModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add New Book</h2>
+                <h2>បញ្ចូលសៀវភៅថ្មី</h2>
                 <button class="close-btn" onclick="closeAddModal()">&times;</button>
             </div>
             <form id="addBookForm" method="POST" action="Book/addnewbook.php">
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title">ចំណងជើង</label>
                     <input type="text" id="title" name="title" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="author">Author</label>
+                    <label for="author">អ្នកនិពន្ធ</label>
                     <input type="text" id="author" name="author" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="publisher">Publisher</label>
+                    <label for="publisher">អ្នកបោះពុម្ពផ្សាយ</label>
                     <input type="text" id="publisher" name="publisher" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="category">Category</label>
+                    <label for="category">ប្រភេទ</label>
                     <input type="text" id="category" name="category" class="form-control" required>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" onclick="closeAddModal()" class="btn btn-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Book</button>
+                    <button type="button" onclick="closeAddModal()" class="btn btn-secondary">បោះបង់</button>
+                    <button type="submit" class="btn btn-primary">បញ្ចូលសៀវភៅ</button>
                 </div>
             </form>
         </div>
@@ -515,23 +501,23 @@
                         ">
                             <table style="width:100%; border-collapse:collapse; font-size:1rem; font-family: 'Segoe UI', 'Arial', 'sans-serif';">
                                 <tr>
-                                    <td style="font-weight:600; padding: 0.4rem 0;">Book ID:</td>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">លេខសៀវភៅ:</td>
                                     <td style="padding: 0.4rem 0;">${data.book_id}</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:600; padding: 0.4rem 0;">Title:</td>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">ចំណងជើង:</td>
                                     <td style="padding: 0.4rem 0;">${data.title}</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:600; padding: 0.4rem 0;">Author:</td>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">អ្នកនិពន្ធ:</td>
                                     <td style="padding: 0.4rem 0;">${data.author}</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:600; padding: 0.4rem 0;">Publisher:</td>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">អ្នកបោះពុម្ពផ្សាយ:</td>
                                     <td style="padding: 0.4rem 0;">${data.publisher}</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:600; padding: 0.4rem 0;">Category:</td>
+                                    <td style="font-weight:600; padding: 0.4rem 0;">ប្រភេទ:</td>
                                     <td style="padding: 0.4rem 0;">${data.category}</td>
                                 </tr>
                             </table>

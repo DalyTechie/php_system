@@ -106,7 +106,7 @@ require_once 'db.php'; // Include database connection
         }
 
         .btn-edit {
-            background:  #2563eb;
+            background: transparent;
             color: #2563eb;
             border: 1.5px solid #2563eb;
             padding: 0.375rem 0.75rem;
@@ -114,16 +114,17 @@ require_once 'db.php'; // Include database connection
             cursor: pointer;
             font-size: 0.875rem;
             font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            transition: border-color 0.2s, color 0.2s;
         }
 
         .btn-edit:hover {
-            background: #2563eb11;
+            background: transparent;
             color: #174ea6;
+            border-color: #174ea6;
         }
 
         .btn-delete {
-            background:  #e74c3c;
+            background: transparent;
             color: #e74c3c;
             border: 1.5px solid #e74c3c;
             padding: 0.375rem 0.75rem;
@@ -131,12 +132,13 @@ require_once 'db.php'; // Include database connection
             cursor: pointer;
             font-size: 0.875rem;
             font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            transition: border-color 0.2s, color 0.2s;
         }
 
         .btn-delete:hover {
-            background: #e74c3c11;
+            background: transparent;
             color: #b91c1c;
+            border-color: #b91c1c;
         }
 
         /* Modal Styles */
@@ -326,7 +328,7 @@ require_once 'db.php'; // Include database connection
             <h1 class="text-2xl  font-khmer header-title-btn-bg">បន្ថែមដេប៉ាទីម៉ង</h1>
             <div class="header-actions">
                 <div style="position: relative; display: flex; align-items: center;">
-                    <input type="text" placeholder="Search..." class="search-input" id="searchInput" style="padding-right: 2.5rem;">
+                    <input type="text" placeholder="ស្វែងរក..." class="search-input" id="searchInput" style="padding-right: 2.5rem;">
                     <span style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background-color: #4f46e5; color: #fff; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
@@ -352,7 +354,7 @@ require_once 'db.php'; // Include database connection
                         <th>ដេប៉ាទីម៉ង</th>
                         <th>លេខកូដ.</th>
                         <th>ព័ត៌មានបន្ថែម</th>
-                        <th>Action</th>
+                        <th>សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -383,7 +385,7 @@ require_once 'db.php'; // Include database connection
                                 </tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='5' class='text-center py-4'>No courses found</td></tr>";
+                        echo "<tr><td colspan='5' class='text-center py-4'>មិនមានដេប៉ាទីម៉ង</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -543,11 +545,11 @@ require_once 'db.php'; // Include database connection
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    alert('Course added successfully!');
+                    alert('បញ្ចូលដេប៉ាទីម៉ងបានជោគជ័យ');
                     closeModal();
                     location.reload();
                 } else {
-                    alert('Error adding course: ' + data.message);
+                    alert('បញ្ចូលដេប៉ាទីម៉ងមិនបានជោគជ័យ');
                 }
             })
             .catch(error => {
@@ -570,11 +572,11 @@ require_once 'db.php'; // Include database connection
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    alert('ការកែប្រែដេប៉ាទីម៉ងបានជោគជ័យ');
+                    alert('កែប្រែដេប៉ាទីម៉ងបានជោគជ័យ');
                     closeEditModal();
                     location.reload();
                 } else {
-                    alert('Error updating course: ' + data.message);
+                    alert('កែប្រែដេប៉ាទីម៉ងមិនបានជោគជ័យ');
                 }
             })
             .catch(error => {
@@ -596,7 +598,7 @@ require_once 'db.php'; // Include database connection
 
         // Delete course function
         function deleteCourse(courseId) {
-            if(confirm('Are you sure you want to delete this course?')) {
+            if(confirm('តើអ្នកប្រាកដជាចង់លុបដេប៉ាទីម៉ងនេះមែនទេ?')) {
                 const formData = new FormData();
                 formData.append('course_id', courseId);
                 
@@ -610,7 +612,7 @@ require_once 'db.php'; // Include database connection
                         alert('ការលុបដេប៉ាទីម៉ងបានជោគជ័យ');
                         location.reload();
                     } else {
-                        alert('Error deleting course: ' + data.message);
+                        alert('ការលុបដេប៉ាទីម៉ងមិនបានជោគជ័យ');
                     }
                 })
                 .catch(error => {
@@ -678,7 +680,7 @@ require_once 'db.php'; // Include database connection
                         alert('ការលុបដេប៉ាទីម៉ងបានជោគជ័យ');
                         location.reload();
                     } else {
-                        alert('Error deleting course: ' + data.message);
+                        alert('ការលុបដេប៉ាទីម៉ងមិនបានជោគជ័យ');
                     }
                 })
                 .catch(error => {

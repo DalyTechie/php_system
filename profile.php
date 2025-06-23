@@ -3,17 +3,16 @@ require_once 'session_check.php';
 include 'components/head.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
-    <title>Library User Profile</title>
+    <title>ប្រវត្តិរូបអ្នកប្រើប្រាស់បណ្ណាល័យ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Fonts for a modern look -->
-  
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Nunito', Arial, sans-serif;
-      
             margin: 0;
             padding: 0;
         }
@@ -41,7 +40,6 @@ include 'components/head.php';
             padding: 0.3rem 0.7rem;
             margin-bottom: 0.5rem;
             width: 100%;
-       
         }
         .profile-info input:focus {
             border-color: #4299e1;
@@ -72,7 +70,6 @@ include 'components/head.php';
             justify-content: center;
         }
         .simple-card {
-       
             border: 1px solid #e2e8f0;
             border-radius: 0.7rem;
             padding: 1.2rem 1.5rem;
@@ -159,67 +156,57 @@ include 'components/head.php';
 </head>
 <body>
 <?php include 'components/sidebar.php'; ?>
-    
+
     <div class="ml-64">
-        <?php 
+        <?php
         include 'components/dashboard_stats.php';
-     //       include 'components/top_bar.php';
+       // include 'components/top_bar.php';
         ?>
     </div>
     <div class="profile-container">
-    
+
     <div class="about-section">
     <div class="student-logo">
-     <!-- Example SVG icon, you can use your own image/logo here -->
-     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Student Logo" width="150" height="150">
- </div>
-    <h2>📖 About Us</h2>
-    <p>
-        Welcome to <strong>Central City Library</strong>!<br>
-        Our mission is to foster a love of reading and lifelong learning in our community. 
-        We offer a diverse collection of books, digital resources, and engaging programs for all ages.
-    </p>
-    <p>
-        <strong>Opening Hours:</strong> Monday - Saturday, 8:00 AM - 8:00 PM<br>
-        <strong>Address:</strong> 123 Main St, Anytown<br>
-        <strong>Contact:</strong> (123) 456-7890 &nbsp;|&nbsp; <a href="mailto:library@centralcity.com">library@centralcity.com</a>
-    </p>
-    <p>
-        Whether you're a student, a researcher, or just looking for your next great read, our friendly staff is here to help you!
-    </p>
-   
-   
-   
-   
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Student Logo" width="150" height="150">
 </div>
-        <!-- Simple Dashboard Cards with Content -->
+    <h2>📖 អំពីពួកយើង</h2>
+    <p>
+        សូមស្វាគមន៍មកកាន់ <strong>បណ្ណាល័យកណ្តាលទីក្រុង</strong>!<br>
+        បេសកកម្មរបស់យើងគឺដើម្បីលើកកម្ពស់ការស្រឡាញ់ការអាន និងការរៀនសូត្រអស់មួយជីវិតនៅក្នុងសហគមន៍របស់យើង។
+        យើងផ្តល់ជូននូវបណ្តុំសៀវភៅ ធនធានឌីជីថល និងកម្មវិធីដ៏សម្បូរបែបសម្រាប់គ្រប់វ័យ។
+    </p>
+    <p>
+        <strong>ម៉ោងបើក៖</strong> ថ្ងៃចន្ទ - ថ្ងៃសៅរ៍, ៨:០០ ព្រឹក - ៨:០០ យប់<br>
+        <strong>អាសយដ្ឋាន៖</strong> ផ្លូវធំលេខ ១២៣ ទីក្រុងណាមួយ<br>
+        <strong>ទំនាក់ទំនង៖</strong> (123) 456-7890 &nbsp;|&nbsp; <a href="mailto:library@centralcity.com">library@centralcity.com</a>
+    </p>
+    <p>
+        មិនថាអ្នកជាសិស្ស និស្សិត អ្នកស្រាវជ្រាវ ឬគ្រាន់តែស្វែងរកសៀវភៅល្អបន្ទាប់របស់អ្នក បុគ្គលិកដែលរួសរាយរាក់ទាក់របស់យើងត្រៀមខ្លួនជួយអ្នក!
+    </p>
+
+
+</div>
         <div class="simple-dashboard">
             <div class="simple-card">
-                <strong>📚 Total Books</strong>
-                <p>Our library offers a diverse collection of books across all genres and subjects.</p>
+                <strong>📚 សៀវភៅសរុប</strong>
+                <p>បណ្ណាល័យរបស់យើងផ្តល់ជូននូវបណ្តុំសៀវភៅចម្រុះគ្រប់ប្រភេទ និងមុខវិជ្ជា។</p>
             </div>
             <div class="simple-card">
-                <strong>✅ Available Books</strong>
-                <p>Most books are available for borrowing. Check the catalog for real-time status.</p>
+                <strong>✅ សៀវភៅមានសម្រាប់ខ្ចី</strong>
+                <p>សៀវភៅភាគច្រើនមានសម្រាប់ខ្ចី។ សូមពិនិត្យមើលបញ្ជីសម្រាប់ស្ថានភាពជាក់ស្តែង។</p>
             </div>
             <div class="simple-card">
-                <strong>📅 Books Borrowed Today</strong>
-                <p>Stay updated with the latest books borrowed by our members each day.</p>
+                <strong>📅 សៀវភៅខ្ចីថ្ងៃនេះ</strong>
+                <p>តាមដានសៀវភៅថ្មីៗដែលសមាជិករបស់យើងខ្ចីជារៀងរាល់ថ្ងៃ។</p>
             </div>
             <div class="simple-card">
-                <strong>👥 Registered Members</strong>
-                <p>Join our community of readers and enjoy exclusive member benefits.</p>
+                <strong>👥 សមាជិកដែលបានចុះឈ្មោះ</strong>
+                <p>ចូលរួមជាមួយសហគមន៍អ្នកអានរបស់យើង ហើយរីករាយជាមួយអត្ថប្រយោជន៍ពិសេសសម្រាប់សមាជិក។</p>
             </div>
-            
-            
-            
-            
+
+
         </div>
-        <!-- About Us Section -->
-        
-        
-        
-    </div>
+        </div>
     <script>
         function saveProfile() {
             document.getElementById('successMessage').style.display = 'block';
@@ -228,6 +215,6 @@ include 'components/head.php';
             }, 2000);
         }
     </script>
-     <?php include 'components/top_bar.php'; ?>
+      <?php include 'components/top_bar.php'; ?>
 </body>
 </html>
