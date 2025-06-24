@@ -66,10 +66,15 @@
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-
+        .inventory-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
         .books-table th {
             background-color: #f8f9fa;
             font-weight: 600;
+            color: #374151;
         }
 
         .book-cover {
@@ -223,41 +228,18 @@
             font-size: 0.875rem;
         }
 
-        .btn-info, .btn-primary, .btn-danger {
-            background: transparent !important;
-            border-width: 1.5px;
-            border-style: solid;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            transition: border-color 0.2s, color 0.2s;
+
+       .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
         }
-        .btn-info {
-            color: #0dcaf0;
-            border-color: #0dcaf0;
-        }
-        .btn-info:hover {
-            color: #0a8ca0;
-            border-color: #0a8ca0;
-            background: transparent !important;
-        }
-        .btn-primary {
-            color: #2563eb;
-            border-color: #2563eb;
-        }
+
         .btn-primary:hover {
-            color: #174ea6;
-            border-color: #174ea6;
-            background: transparent !important;
+            background-color: #4338ca;
+            transform: translateY(-1px);
         }
-        .btn-danger {
-            color: #e74c3c;
-            border-color: #e74c3c;
-        }
-        .btn-danger:hover {
-            color: #b91c1c;
-            border-color: #b91c1c;
-            background: transparent !important;
-        }
+    
 
         .btn-add {
             background-color:rgb(31, 5, 177);
@@ -288,6 +270,34 @@
         .font-khmer h1{
             font-family: 'Khmer OS Muol Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
+         .btn-info{
+            color: #0dcaf0;
+            border-color: #0dcaf0;
+        }
+        .btn-info:hover {
+            color: #0a8ca0;
+            border-color: #0a8ca0;
+            background: transparent !important;
+        }
+        .btn-edit{
+            color: #2563eb;
+            border-color: #2563eb;
+        }
+        .btn-edit:hover {
+            color: #174ea6;
+            border-color: #174ea6;
+            /* background: transparent !important; */
+        }
+        .btn-delete {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        .btn-delete:hover {
+            color: #b91c1c;
+            border-color: #b91c1c;
+            background: transparent !important;
+        }
+
     </style>
 </head>
 <body>
@@ -311,9 +321,7 @@
                     </span>
                 </div>
                 <button class="btn btn-primary" style="  background-color:rgb(25, 80, 231); color: #fff; border: none;" onclick="openAddBookModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
-                    </svg>
+                    
                     បញ្ចូលសៀវភៅ
                 </button>
             </div>
@@ -369,14 +377,14 @@
                             echo "<td>" . htmlspecialchars($row['publisher']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['category']) . "</td>";
                             echo "<td class='actions'>
-                                    <button onclick='openViewModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-info btn-sm'>
-                                        <span style='font-size:1.1em;'>👁️</span> មើល
+                                    <button onclick='openViewModal(" . htmlspecialchars($row['book_id']) . ")' class='btn-info'>
+                                        <span style='font-size:1.1em;'>👁️</span>
                                     </button>
-                                    <button onclick='openEditModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-primary btn-sm'>
-                                        <span style='font-size:1.1em;'>✏️</span> កែប្រែ
+                                    <button onclick='openEditModal(" . htmlspecialchars($row['book_id']) . ")' class='btn-edit'>
+                                        <span style='font-size:1.1em;'>✏️</span>
                                     </button>
-                                    <button onclick='openDeleteModal(" . htmlspecialchars($row['book_id']) . ")' class='btn btn-danger btn-sm'>
-                                        <span style='font-size:1.1em;'>🗑️</span> លុប
+                                    <button onclick='openDeleteModal(" . htmlspecialchars($row['book_id']) . ")' class='btn-delete'>
+                                        <span style='font-size:1.1em;'>🗑️</span>
                                     </button>
                                   </td>";
                             echo "</tr>";
@@ -491,7 +499,7 @@
                 .then(data => {
                     document.getElementById('viewBookContent').innerHTML = `
                         <div style="
-                            font-family: 'Segoe UI', 'Arial', 'sans-serif';
+                            font-family: 'khmer os Siemreap', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
                             border-radius: 10px;
                             padding: 1.5rem 1.5rem 1rem 1.5rem;
                             box-shadow: 0 2px 8px rgba(0,0,0,0.07);
@@ -499,7 +507,7 @@
                             margin: 0 auto;
                             background: #fff;
                         ">
-                            <table style="width:100%; border-collapse:collapse; font-size:1rem; font-family: 'Segoe UI', 'Arial', 'sans-serif';">
+                            <table style="width:100%; border-collapse:collapse; font-size:1rem; font-family: 'khmer os Siemreap';color: #374151;">
                                 <tr>
                                     <td style="font-weight:600; padding: 0.4rem 0;">លេខសៀវភៅ:</td>
                                     <td style="padding: 0.4rem 0;">${data.book_id}</td>

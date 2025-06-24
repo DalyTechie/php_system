@@ -105,8 +105,8 @@ require_once 'db.php'; // Include database connection
             gap: 0.5rem;
         }
 
-        .btn-edit {
-            background: transparent;
+        /* .btn-edit {
+            background: #2563eb;
             color: #2563eb;
             border: 1.5px solid #2563eb;
             padding: 0.375rem 0.75rem;
@@ -115,16 +115,16 @@ require_once 'db.php'; // Include database connection
             font-size: 0.875rem;
             font-weight: 500;
             transition: border-color 0.2s, color 0.2s;
-        }
+        } */
 
-        .btn-edit:hover {
+        /* .btn-edit:hover {
             background: transparent;
             color: #174ea6;
             border-color: #174ea6;
         }
 
         .btn-delete {
-            background: transparent;
+            background:#e74c3c ;
             color: #e74c3c;
             border: 1.5px solid #e74c3c;
             padding: 0.375rem 0.75rem;
@@ -139,7 +139,7 @@ require_once 'db.php'; // Include database connection
             background: transparent;
             color: #b91c1c;
             border-color: #b91c1c;
-        }
+        } */
 
         /* Modal Styles */
         .modal {

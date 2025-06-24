@@ -133,6 +133,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             gap: 1rem;
         }
+         /* .btn-edit {
+            background: #2563eb;
+            color: #2563eb;
+            border: 1.5px solid #2563eb;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: border-color 0.2s, color 0.2s;
+        } */
+        
+        /* .btn-edit:hover {
+            background: transparent;
+            color: #174ea6;
+            border-color: #174ea6;
+        }
+        .btn-info {
+            border: 1.5px solid rgb(51, 196, 41);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-info:hover{
+            background: transparent;
+            border-color: rgb(51, 196, 41);
+        }
+        
+        .btn-delete {
+            background:  #e74c3c;
+            color: #e74c3c;
+            border: 1.5px solid #e74c3c;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: transparent;
+            color: #b91c1c;
+            border-color: #b91c1c;
+        } */
+
 
         .search-input {
             padding: 0.5rem 1rem;
@@ -840,7 +889,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        .btn-info, .btn-primary, .btn-delete {
+        /* .btn-info, .btn-primary, .btn-delete {
             background: transparent !important;
             border-width: 1.5px;
             border-style: solid;
@@ -854,7 +903,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: inline-flex;
             align-items: center;
             gap: 0.3em;
-        }
+        } */
         .btn-info {
             color: #0dcaf0;
             border-color: #0dcaf0;
@@ -871,7 +920,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .btn-primary:hover {
             color: #174ea6;
             border-color: #174ea6;
-            background: transparent !important;
+            /* background: transparent !important; */
         }
         .btn-delete {
             color: #e74c3c;
@@ -998,6 +1047,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #15803d;
             border: 1.5px solid #86efac;
         }
+        .header-title-btn-bg {
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -1010,7 +1066,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="text-2xl font-khmer header-title-btn-bg">ចុះឈ្មោះនិស្សិត</h1>
             <div class="header-actions">
                 <div style="position: relative; display: flex; align-items: center;">
-                    <input type="text" placeholder="Search..." class="search-input" id="searchInput" style="padding-right: 2.5rem;">
+                    <input type="text" placeholder="ស្វែងរក..." class="search-input" id="searchInput" style="padding-right: 2.5rem;">
                     <span style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background-color: #4f46e5; color: #fff; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
@@ -1072,14 +1128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<td><span class='course-badge'>" . htmlspecialchars($row['course_name']) . "</span></td>";
                             echo "<td>" . $borrowStatus . "</td>";
                             echo "<td class='actions'>
-                                    <button onclick='viewDetails(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-info btn-sm'>
-                                        <span style='font-size:1.1em;'>មើល 👁️</span> 
+                                    <button onclick='viewDetails(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-info'>
+                                        <span style='font-size:1.1em;'>👁️</span> 
                                     </button>
-                                    <button onclick='editStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn btn-primary btn-sm'>
-                                        <span style='font-size:1.1em;'>កែប្រែ ✏️</span> 
+                                    <button onclick='editStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-edit '>
+                                        <span style='font-size:1.1em;'>✏️</span> 
                                     </button>
-                                    <button onclick='deleteStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-delete btn-sm'>
-                                        <span style='font-size:1.1em;'>លុប 🗑️</span> 
+                                    <button onclick='deleteStudent(\"" . htmlspecialchars($row['student_id']) . "\")' class='btn-delete '>
+                                        <span style='font-size:1.1em;'>🗑️</span> 
                                     </button>
                                 </td>";
                             echo "</tr>";

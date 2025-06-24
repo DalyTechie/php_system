@@ -42,7 +42,16 @@
             margin-left: 16rem;
             padding: 2rem;
         }
-
+        .header-title-btn-bg {
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+        }
+        .font-khmer h1{
+            font-family: 'Khmer OS Muol Light', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -85,6 +94,7 @@
         .books-table th {
             background-color: #f8f9fa;
             font-weight: 600;
+             color: #374151;
         }
 
         .btn {
@@ -234,13 +244,16 @@
     </style>
 </head>
 <body>
-    <?php include './components/sidebar.php'; ?>
-    
+    <?php include './components/sidebar.php' ?>
+
+      <div class="ml-64">
+        <?php include 'components/dashboard_stats.php'; ?>
+    </div>
     <div class="main-container">
   
 
         <div class="page-header">
-            <h1>សៀវភៅដែលត្រូវសង</h1>
+            <h1 class='text-2xl font-khmer header-title-btn-bg'>សៀវភៅដែលត្រូវសង</h1>
             <div class="header-actions">
                 <input type="text" id="searchInput" placeholder="ស្វែងរកសៀវភៅ..." class="search-input" onkeyup="searchBooks()">
                 <button type="button" class="btn btn-primary">
